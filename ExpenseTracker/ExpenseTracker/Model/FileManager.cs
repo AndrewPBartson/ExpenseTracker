@@ -27,7 +27,6 @@ namespace ExpenseTracker.Model
                     return File.ReadAllText(jsonFilePath);
                 }
             }
-
             return null;
         }
 

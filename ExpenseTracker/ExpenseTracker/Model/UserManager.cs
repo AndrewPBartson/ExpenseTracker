@@ -14,7 +14,6 @@ namespace ExpenseTracker.Model
     public class UserManager
     {
         User currentUser = null;
-
         FileManager fileManager;
 
         public UserManager()
@@ -25,19 +24,20 @@ namespace ExpenseTracker.Model
         public bool IsValidUser(string username, string password)
         {
             //check if user exists or not in .json
-            string userJson = this.fileManager.ReadUserData(username);
+            string userJson = this.fileManager.ReadFileData(username);
             if (userJson != null)
             {
                 return true;
             }
-
             return false;
-            
         }
 
         public User GetUser(string username)
         {
+
             // TODO: Read JSON file and create User object and return.
+
+
             return null;
         }
 
@@ -50,11 +50,10 @@ namespace ExpenseTracker.Model
                 Budgets = new List<Budget>()
             };
 
-            // Serialize User object to JSON
             var userJsonString = JsonSerializer.Serialize(this.currentUser);
 
             // Save user data to File
-            if (this.fileManager.SaveUserFile(username, userJsonString))
+            if (this.fileManager.SaveDataToFile(username, userJsonString))
             {
                 return this.currentUser;
             }
