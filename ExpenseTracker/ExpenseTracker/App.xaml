@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ExpenseTracker.App">
     <Application.Resources>
-        <!--<OnPlatform x:Key="CustomFont" x:TypeArguments="x:String">
-            <On Platform="Android" Value="icomoon.ttf#fontello" />
-            <On Platform="iOS" Value="budgeticons" />
-        </OnPlatform>-->
+        <OnPlatform x:Key="CustomFont" x:TypeArguments="x:String">
+            <On Platform="Android" Value="icomoon.ttf#" />
+            <On Platform="iOS" Value="Ionicons" />
+        </OnPlatform>
     </Application.Resources>
 </Application>

@@ -31,7 +31,7 @@
             <Label Margin="10,25,10,0"
                    Text="Category" FontSize="18"
                    HeightRequest="25"/>
-            <Grid Margin="10,10,10,0">
+            <Grid Margin="10,10,10,0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -42,70 +42,74 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
-                <Image x:Name="HomeIcon" BackgroundColor="#D1D1D1" Grid.Row="0" Grid.Column="0">
-                    <Image.Source>
+                <ImageButton x:Name="HomeIcon" BackgroundColor="#D1D1D1" Grid.Row="0" Grid.Column="0" Clicked="HomeIcon_Clicked" >
+                    <ImageButton.Source>
                         <FontImageSource Glyph="&#xe902;"
                          FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
                          Size="44" />
-                    </Image.Source>
-                </Image>
+                    </ImageButton.Source>
+                    <!--<Image.GestureRecognizers>
+                        <TapGestureRecognizer  
+                         Tapped="TapGestureRecognizer_Tapped"
+                            NumberOfTapsRequired="1" />
+                    </Image.GestureRecognizers>-->
+                </ImageButton>
 
-                <Image x:Name="ShoppingIcon" BackgroundColor="#D1D1D1" Grid.Row="0" Grid.Column="1">
-                    <Image.Source>
+                <ImageButton x:Name="ShoppingIcon" Grid.Row="0" Grid.Column="1" Clicked="ShoppingIcon_Clicked" BackgroundColor="#D1D1D1">
+                    <ImageButton.Source>
                         <FontImageSource Glyph="&#xe93a;"
                          FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
                          Size="44" />
-                    </Image.Source>
-                </Image>
+                    </ImageButton.Source>
+                </ImageButton>
 
-                <Image x:Name="TravelIcon" BackgroundColor="#D1D1D1" Grid.Row="0" Grid.Column="2">
-                    <Image.Source>
+                <ImageButton x:Name="TravelIcon" BackgroundColor="#D1D1D1" Grid.Row="0" Grid.Column="2" Clicked="TravelIcon_Clicked">
+                    <ImageButton.Source>
                         <FontImageSource Glyph="&#xe9af;"
                          FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
                          Size="44" />
-                    </Image.Source>
-                </Image>
+                    </ImageButton.Source>
+                </ImageButton>
 
-                <Image x:Name="FoodIcon" BackgroundColor="#D1D1D1" Grid.Row="0" Grid.Column="3">
-                    <Image.Source>
+                <ImageButton x:Name="FoodIcon" BackgroundColor="#D1D1D1" Grid.Row="0" Grid.Column="3" Clicked="FoodIcon_Clicked">
+                    <ImageButton.Source>
                         <FontImageSource Glyph="&#xe9a3;"
                          FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
                          Size="44" />
-                    </Image.Source>
-                </Image>
+                    </ImageButton.Source>
+                </ImageButton>
 
-                <Image x:Name="EntertainmentIcon" BackgroundColor="#D1D1D1" Grid.Row="1" Grid.Column="0">
-                    <Image.Source>
+                <ImageButton x:Name="EntertainmentIcon" BackgroundColor="#D1D1D1" Grid.Row="1" Grid.Column="0" Clicked="EntertainmentIcon_Clicked">
+                    <ImageButton.Source>
                         <FontImageSource Glyph="&#xe911;"
                          FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
                          Size="44" />
-                    </Image.Source>
-                </Image>
+                    </ImageButton.Source>
+                </ImageButton>
 
-                <Image x:Name="EducationIcon" BackgroundColor="#D1D1D1" Grid.Row="1" Grid.Column="1">
-                    <Image.Source>
+                <ImageButton x:Name="EducationIcon" BackgroundColor="#D1D1D1" Grid.Row="1" Grid.Column="1" Clicked="EducationIcon_Clicked">
+                    <ImageButton.Source>
                         <FontImageSource Glyph="&#xe921;"
                          FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
                          Size="44" />
-                    </Image.Source>
-                </Image>
+                    </ImageButton.Source>
+                </ImageButton>
 
-                <Image x:Name="BillsIcon" BackgroundColor="#D1D1D1" Grid.Row="1" Grid.Column="2">
-                    <Image.Source>
+                <ImageButton x:Name="BillsIcon" BackgroundColor="#D1D1D1" Grid.Row="1" Grid.Column="2" Clicked="BillsIcon_Clicked">
+                    <ImageButton.Source>
                         <FontImageSource Glyph="&#xe922;"
-                         FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
+                         FontFamily="{DynamicResource CustomFont}"
                          Size="44" />
-                    </Image.Source>
-                </Image>
+                    </ImageButton.Source>
+                </ImageButton>
 
-                <Image x:Name="GiftIcon" BackgroundColor="#D1D1D1" Grid.Row="1" Grid.Column="3">
-                    <Image.Source>
+                <ImageButton x:Name="GiftIcon" BackgroundColor="#D1D1D1" Grid.Row="1" Grid.Column="3" Clicked="GiftIcon_Clicked">
+                    <ImageButton.Source>
                         <FontImageSource Glyph="&#xe99f;"
                          FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
                          Size="44" />
-                    </Image.Source>
-                </Image>
+                    </ImageButton.Source>
+                </ImageButton>
             </Grid>
 
             <Grid Margin="10,30,10,0">
