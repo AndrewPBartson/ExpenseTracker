@@ -10,6 +10,7 @@
                    Text="Name:" FontSize="18"
                    HeightRequest="25"/>
             <Editor Margin="10,0,10,0"
+                    x:Name="ExpenseName"
                     Placeholder="Enter expense name"
                     HeightRequest="40"/>
 
@@ -17,6 +18,7 @@
                    Text="Amount:" FontSize="18"
                    HeightRequest="25"/>
             <Editor Margin="10,0,10,0"
+                    x:Name="ExpenseAmount" Keyboard="Numeric"
                     Placeholder="Enter expense amount"
                     HeightRequest="40"/>
 

@@ -19,6 +19,9 @@ namespace ExpenseTracker
             CategoryIcon.getAllIcons();
         }
 
+        public string name;
+        public string amount;
+        public DateTime date;
         public string category;
         //protected override void OnAppearing()
         //{
@@ -27,7 +30,12 @@ namespace ExpenseTracker
 
         private void OnAddButtonClicked(object sender, EventArgs e)
         {
-
+            name = ExpenseName.Text;
+            amount = ExpenseAmount.Text;
+            Console.WriteLine("The name of the expense is: " + name);
+            Console.WriteLine("The amount of expense is: " + amount);
+            Console.WriteLine("The date selected is: " + date);
+            Console.WriteLine("The category selected is: " + category);
         }
 
         private void OnCancelButtonClicked(object sender, EventArgs e)
@@ -38,8 +46,8 @@ namespace ExpenseTracker
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
         {
             // Read the value that user has selected
-            var date = (DateTime)e.NewDate;
-            Console.WriteLine("The date selected is: " + date);
+            date = (DateTime)e.NewDate;
+            
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
@@ -101,7 +109,6 @@ namespace ExpenseTracker
             category = "Gift";
             IconsEnableDisable();
             GiftIcon.BackgroundColor = Color.Aqua;
-
         }
 
         private void IconsEnableDisable()
@@ -114,7 +121,6 @@ namespace ExpenseTracker
             EducationIcon.BackgroundColor = Color.LightGray;
             BillsIcon.BackgroundColor = Color.LightGray;
             GiftIcon.BackgroundColor = Color.LightGray;
-
         }
     }
     
