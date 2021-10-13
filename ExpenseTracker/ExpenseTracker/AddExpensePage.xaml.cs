@@ -1,12 +1,14 @@
 ﻿using ExpenseTracker.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
 
 namespace ExpenseTracker
 {
@@ -32,15 +34,23 @@ namespace ExpenseTracker
         {
             name = ExpenseName.Text;
             amount = ExpenseAmount.Text;
-            Console.WriteLine("The name of the expense is: " + name);
-            Console.WriteLine("The amount of expense is: " + amount);
-            Console.WriteLine("The date selected is: " + date);
-            Console.WriteLine("The category selected is: " + category);
+
+            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(amount) && !string.IsNullOrWhiteSpace(category))
+            {
+                Console.WriteLine("The name of the expense is: " + name);
+                Console.WriteLine("The amount of expense is: " + amount);
+                Console.WriteLine("The date selected is: " + date);
+                Console.WriteLine("The category selected is: " + category);
+            }
+            else
+            {
+                DisplayAlert("Alert", "One or more required fields are empty. Please try again.", "OK");
+            }
         }
 
         private void OnCancelButtonClicked(object sender, EventArgs e)
         {
-
+            
         }
 
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
@@ -58,6 +68,7 @@ namespace ExpenseTracker
         private void HomeIcon_Clicked(object sender, EventArgs e)
         {
             category = "Home";
+            CategoryLabel.Text = $"Category: {category}";
             IconsEnableDisable();
             HomeIcon.BackgroundColor = Color.Aqua;
         }
@@ -65,6 +76,7 @@ namespace ExpenseTracker
         private void ShoppingIcon_Clicked(object sender, EventArgs e)
         {
             category = "Shopping";
+            CategoryLabel.Text = $"Category: {category}";
             IconsEnableDisable();
             ShoppingIcon.BackgroundColor = Color.Aqua;
         }
@@ -72,6 +84,7 @@ namespace ExpenseTracker
         private void TravelIcon_Clicked(object sender, EventArgs e)
         {
             category = "Travel";
+            CategoryLabel.Text = $"Category: {category}";
             IconsEnableDisable();
             TravelIcon.BackgroundColor = Color.Aqua;
         }
@@ -79,6 +92,7 @@ namespace ExpenseTracker
         private void FoodIcon_Clicked(object sender, EventArgs e)
         {
             category = "Food";
+            CategoryLabel.Text = $"Category: {category}";
             IconsEnableDisable();
             FoodIcon.BackgroundColor = Color.Aqua;
         }
@@ -86,6 +100,7 @@ namespace ExpenseTracker
         private void EntertainmentIcon_Clicked(object sender, EventArgs e)
         {
             category = "Entertainment";
+            CategoryLabel.Text = $"Category: {category}";
             IconsEnableDisable();
             EntertainmentIcon.BackgroundColor = Color.Aqua;
         }
@@ -93,6 +108,7 @@ namespace ExpenseTracker
         private void EducationIcon_Clicked(object sender, EventArgs e)
         {
             category = "Education";
+            CategoryLabel.Text = $"Category: {category}";
             IconsEnableDisable();
             EducationIcon.BackgroundColor = Color.Aqua;
         }
@@ -100,6 +116,7 @@ namespace ExpenseTracker
         private void BillsIcon_Clicked(object sender, EventArgs e)
         {
             category = "Bills";
+            CategoryLabel.Text = $"Category: {category}";
             IconsEnableDisable();
             BillsIcon.BackgroundColor = Color.Aqua;
         }
@@ -107,6 +124,7 @@ namespace ExpenseTracker
         private void GiftIcon_Clicked(object sender, EventArgs e)
         {
             category = "Gift";
+            CategoryLabel.Text = $"Category: {category}";
             IconsEnableDisable();
             GiftIcon.BackgroundColor = Color.Aqua;
         }
@@ -122,6 +140,8 @@ namespace ExpenseTracker
             BillsIcon.BackgroundColor = Color.LightGray;
             GiftIcon.BackgroundColor = Color.LightGray;
         }
+
+        
     }
     
 }

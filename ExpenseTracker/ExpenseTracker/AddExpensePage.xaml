@@ -10,7 +10,7 @@
                    Text="Name:" FontSize="18"
                    HeightRequest="25"/>
             <Editor Margin="10,0,10,0"
-                    x:Name="ExpenseName"
+                    x:Name="ExpenseName" 
                     Placeholder="Enter expense name"
                     HeightRequest="40"/>
 
@@ -31,6 +31,7 @@
                         DateSelected="DatePicker_DateSelected"/>
 
             <Label Margin="10,25,10,0"
+                   x:Name="CategoryLabel"
                    Text="Category" FontSize="18"
                    HeightRequest="25"/>
             <Grid Margin="10,10,10,0" >
