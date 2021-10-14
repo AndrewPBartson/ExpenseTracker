@@ -9,7 +9,7 @@ namespace ExpenseTracker.Model
     //validation (check for user name and password if present)
     //create a new user if not already present
     //save data to file of specific user
-    
+
 
     public class UserManager
     {
@@ -34,9 +34,15 @@ namespace ExpenseTracker.Model
 
         public User GetUser(string username)
         {
-
-            // TODO: Read JSON file and create User object and return.
-
+            if (!string.IsNullOrWhiteSpace(username))
+            {
+                var filestring = this.fileManager.ReadFileData(username);
+                if (!string.IsNullOrEmpty(filestring))
+                {
+                    this.currentUser = JsonSerializer.Deserialize<User>(filestring);
+                    return this.currentUser;
+                }
+            }
 
             return null;
         }
@@ -58,13 +64,13 @@ namespace ExpenseTracker.Model
                 return this.currentUser;
             }
 
-            // If unable to save user data return null.
             return null;
         }
 
         public void SaveUserData(User user)
         {
-            // TODO: Save user object to JSON and then to file.
+            var serializedJsonstring = JsonSerializer.Serialize<User>(user);
+            this.fileManager.SaveDataToFile(user.UserName, serializedJsonstring);
         }
     }
 }
