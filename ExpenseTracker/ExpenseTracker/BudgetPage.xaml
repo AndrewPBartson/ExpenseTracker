@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ExpenseTracker.BudgetPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Text="Monthly Budget"
+                    HorizontalOptions ="Center" FontSize ="50" />
+                <Label Margin="14,10,10,0"
+                       Text="Budget Goal:" FontSize="20" 
+                       Grid.Row="1" />
+                <Editor x:Name="BudgetInput" Margin="10,0,10,0" 
+                        Placeholder="Enter your budget for this month"
+                        Grid.Row="2"/>
+                <Grid  Margin="10,0,10,0"
+                       Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="EditButton" Text="Edit"
+                        Clicked="OnEditButtonClicked" />
+                        
+                    <Button x:Name="SaveButton" Text="Save"
+                        Clicked="OnSaveButtonClicked"
+                        Grid.Column="1" />
+                </Grid>
+                <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Margin="14,25,10,0"
+                       Text="Month-to-Date:" FontSize="20" />
+                    <Label Margin="10,25,10,0"
+                       Text="$XXXX.00" FontSize="18"
+                       Grid.Column="1" />
+                </Grid>
+
+                <Label Margin="14,25,10,0"
+                       Text="Monthly Subtotals by Category:" FontSize="20"
+                       Grid.Row="5"/>
+                <Grid Margin="20,10,10,0"
+                      Grid.Row="6">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <ImageButton x:Name="HomeIcon" BackgroundColor="#D1D1D1" 
+                                 Grid.Row="0" Grid.Column="0"
+                                 Margin="0,5,0,5">
+                        <ImageButton.Source>
+                            <FontImageSource Glyph="&#xe902;"
+                         FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
+                         Size="44" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <Label x:Name="HomeTotal"
+                           Margin="10,10,10,10"
+                           Text="$XXX.00" FontSize="18"
+                           Grid.Row="0" Grid.Column="1" />
+
+                    <ImageButton x:Name="ShoppingIcon" 
+                                 Grid.Row="0" Grid.Column="2" BackgroundColor="#D1D1D1"
+                                 Margin="0,5,0,5">
+                        <ImageButton.Source>
+                            <FontImageSource Glyph="&#xe93a;"
+                         FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
+                         Size="44" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <Label x:Name="ShoppingTotal"
+                           Margin="10,10,10,10"
+                           Text="$XXX.00" FontSize="18"
+                           Grid.Row="0" Grid.Column="3" />
+
+                    <ImageButton x:Name="TravelIcon" BackgroundColor="#D1D1D1" 
+                                 Grid.Row="1" Grid.Column="0"
+                                 Margin="0,5,0,5">
+                        <ImageButton.Source>
+                            <FontImageSource Glyph="&#xe9af;"
+                         FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
+                         Size="44" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <Label x:Name="TravelTotal"
+                           Margin="10,10,10,10"
+                           Text="$XXX.00" FontSize="18"
+                           Grid.Row="1" Grid.Column="1" />
+
+                    <ImageButton x:Name="FoodIcon" BackgroundColor="#D1D1D1" 
+                                 Grid.Row="1" Grid.Column="2"
+                                 Margin="0,5,0,5">
+                        <ImageButton.Source>
+                            <FontImageSource Glyph="&#xe9a3;"
+                         FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
+                         Size="44" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <Label x:Name="FoodTotal"
+                           Margin="10,10,10,10"
+                           Text="$XXX.00" FontSize="18"
+                           Grid.Row="1" Grid.Column="3" />
+
+                    <ImageButton x:Name="EntertainmentIcon" BackgroundColor="#D1D1D1" 
+                                 Grid.Row="2" Grid.Column="0"
+                                 Margin="0,5,0,5">
+                        <ImageButton.Source>
+                            <FontImageSource Glyph="&#xe911;"
+                         FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
+                         Size="44" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <Label x:Name="EntertainmentTotal"
+                           Margin="10,10,10,10"
+                           Text="$XXX.00" FontSize="18"
+                           Grid.Row="2" Grid.Column="1" />
+
+                    <ImageButton x:Name="EducationIcon" BackgroundColor="#D1D1D1" 
+                                 Grid.Row="2" Grid.Column="2"
+                                 Margin="0,5,0,5">
+                        <ImageButton.Source>
+                            <FontImageSource Glyph="&#xe921;"
+                         FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
+                         Size="44" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <Label x:Name="EducationTotal"
+                           Margin="10,10,10,10"
+                           Text="$XXX.00" FontSize="18"
+                           Grid.Row="2" Grid.Column="3" />
+
+                    <ImageButton x:Name="BillsIcon" BackgroundColor="#D1D1D1" 
+                                 Grid.Row="3" Grid.Column="0"
+                                 Margin="0,5,0,5">
+                        <ImageButton.Source>
+                            <FontImageSource Glyph="&#xe922;"
+                         FontFamily="{DynamicResource CustomFont}"
+                         Size="44" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <Label x:Name="BillsTotal"
+                           Margin="10,10,10,10"
+                           Text="$XXX.00" FontSize="18"
+                           Grid.Row="3" Grid.Column="1" />
+
+                    <ImageButton x:Name="GiftIcon" BackgroundColor="#D1D1D1" 
+                                 Grid.Row="3" Grid.Column="2"
+                                 Margin="0,5,0,5">
+                        <ImageButton.Source>
+                            <FontImageSource Glyph="&#xe99f;"
+                         FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
+                         Size="44" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <Label x:Name="GiftTotal"
+                           Margin="10,10,10,10"
+                           Text="$XXX.00" FontSize="18"
+                           Grid.Row="3" Grid.Column="3" />
+                </Grid>
+                <!-- ViewExpenseButton might be unnecessary if conditional "Continue" button
+                      is implemented -->
+                <Button x:Name="ViewExpensesButton" 
+                        Text="View Expenses" Grid.Row="7"
+                        Margin="20,10,20,0"
+                        Clicked="OnViewExpensesButtonClicked" />
+
+            </Grid>
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
