@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ExpensesTracker.Model
+namespace ExpenseTracker.Model
 {
     class DataFile
     {
         public User AppUser { get; set; }
-        public Budget Budget { get; set; }
+        public MothlyGoal Budget { get; set; }
 
 
 

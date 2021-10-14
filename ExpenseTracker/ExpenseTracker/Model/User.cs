@@ -4,11 +4,9 @@ using System.Text;
 
 namespace ExpenseTracker.Model
 {
-    public class User
+    class User
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public List<Budget> Budgets { get; set; }
-
+        public String UserName { get; set; }
+        public String  Password { get; set; }
     }
 }

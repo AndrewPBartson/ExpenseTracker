@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ExpensesTracker.Model
+namespace ExpenseTracker.Model
 {
     static class Costants
     {

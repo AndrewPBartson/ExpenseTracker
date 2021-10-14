@@ -14,7 +14,7 @@ namespace ExpenseTracker
     public partial class ExpensesPage : ContentPage
     {
         public ExpensesPage()
-        { 
+        {
             InitializeComponent();
             
         }
@@ -22,14 +22,14 @@ namespace ExpenseTracker
         {
 
 
-            
+
             //var ExpensesList= new List<Expenses>
             //var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
             //FilePath = FilePath + Costants.FileName;
 
 
-            List<Expenses> ExpenseList = new List<Expenses>();
+            List<Expense> ExpenseList = new List<Expense>();
             FileManagement CurrentData = new FileManagement();
 
             ExpenseList = CurrentData.ExpenseList_CurrentMonth();

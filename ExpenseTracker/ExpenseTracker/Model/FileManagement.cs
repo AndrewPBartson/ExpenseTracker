@@ -1,58 +1,28 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
+using System.IO;
 
-namespace ExpensesTracker.Model
+namespace ExpenseTracker.Model
 {
-    public class FileManager
-    {
-        string defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-
-        public string ReadFileData(string fileName)
-        {
-            // The File path for user
-            string jsonFilePath= Path.Combine(this.defaultPath, $"{fileName.ToLower()}.json");
-
-            // Get all the File names from Directory that match *.json pattern.
-            var filePaths = Directory.EnumerateFiles(defaultPath, $"*.json");
-
-            // IF there are any files in the directory, then search for file name
-            if (filePaths != null && filePaths.Any())
-            {
-                var userFileFound = filePaths.Where(filepath => filepath.ToLower() == jsonFilePath.ToLower()).FirstOrDefault();
-                if (!string.IsNullOrEmpty(userFileFound))
-                {
-                    return File.ReadAllText(jsonFilePath);
-                }
-            }
-            return null;
-        }
-
-        public bool SaveDataToFile(string fileName, string data)
-        {
-            // Create File name
-            var jsonFileName = $"{fileName.ToLower()}.json";
-            File.WriteAllText(Path.Combine(this.defaultPath, jsonFileName), data);
-            return true;
-        }
-
-
+    class FileManagement
+    {   
+        
+        
         public void FileNameAssignment()
         {
 
-            Costants.FileName = Costants.Currentuser.UserName.ToString() + Costants.CurretMonth.ToString();
+            Costants.FileName = Costants.Currentuser.UserName.ToString() + Costants.CurretMonth.ToString() ;
         }
 
         public DataFile Load_All_Data()
 
         {
-            var Filepath = Environment.CurrentDirectory + Costants.FileName + ".json";
+             var Filepath = Environment.CurrentDirectory + Costants.FileName+".json";
 
             //   var CurrentValidData = File.ReadAllText(Filepath);
 
-            // List<DataFile> CurrentListdata = new List<DataFile>();
+          // List<DataFile> CurrentListdata = new List<DataFile>();
             DataFile Currentdata = new DataFile();
 
             Expense ExpenseItem1 = new Expense();
@@ -79,8 +49,8 @@ namespace ExpensesTracker.Model
 
 
             ListExpenseItem.Add(ExpenseItem1);
-            // Currentdata.Budget.expenses.Add(ExpenseItem);
-
+           // Currentdata.Budget.expenses.Add(ExpenseItem);
+            
 
             ExpenseItem2.ExpenseAmount = 100;
             ExpenseItem2.Expensecategory = Category.Grocery;
@@ -107,14 +77,14 @@ namespace ExpensesTracker.Model
 
         }
 
-        public List<Expenses> ExpenseList_CurrentMonth()
+        public List<Expense> ExpenseList_CurrentMonth()
         {
-            DataFile CurrentListdata = new DataFile();
+             DataFile CurrentListdata = new DataFile();
             CurrentListdata = Load_All_Data();
 
-            List<Expense> CurrentMonthExpense = new List<Expense>();
+            List<Expense> CurrentMonthExpense = new List<Expense>() ;
 
-            return (CurrentListdata.Budget.expenses);
+           return( CurrentListdata.Budget.expenses);
 
         }
 
@@ -124,9 +94,9 @@ namespace ExpensesTracker.Model
             List<Expense> CurrentMonthExpense = new List<Expense>();
             CurrentMonthExpense = ExpenseList_CurrentMonth();
 
-            double monthlyCost = 0.00;
+            double monthlyCost=0.00;
 
-            foreach (var a in CurrentMonthExpense)
+            foreach( var a in CurrentMonthExpense)
             {
                 monthlyCost = monthlyCost + a.ExpenseAmount;
 
@@ -134,7 +104,7 @@ namespace ExpensesTracker.Model
             }
             return monthlyCost;
         }
-
+        
 
     }
 }
