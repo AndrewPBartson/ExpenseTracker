@@ -22,34 +22,34 @@ namespace ExpenseTracker
         }
 
         public string name;
-        public string amount;
+        public decimal amount;
         public DateTime date;
         public Category category;
 
         protected override void OnAppearing()
         {
-            var expense = (Expenses)BindingContext;
-            if (!string.IsNullOrEmpty(expense.Description))
-            {
-                ExpenseLabel.Text = "Update Expense";
-                ExpenseName.Text = expense.Description;
-                ExpenseAmount.Text = expense.ExpenseAmount;
-                //ExpenseDate = expense.ExpenseDate;
-                ExpenseCategory.Text = expense.ExpenseCategory.ToString();
-                //Highlight the selected category
-                AddSaveButton.Text = "Update";
-                DeleteButton.IsVisible = true;
-            }
-        }
+            //var expense = (Expenses)BindingContext;
+            //if (!string.IsNullOrEmpty(expense.Description))
+            //{
+            //    ExpenseLabel.Text = "Update Expense";
+            //    ExpenseName.Text = expense.Description;
+            //    ExpenseAmount.Text = expense.ExpenseAmount.ToString();
+            //    //ExpenseDate = expense.ExpenseDate;
+            //    ExpenseCategory.Text = expense.ExpenseCategory.ToString();
+            //    //Highlight the selected category
+            //    AddSaveButton.Text = "Update";
+            //    DeleteButton.IsVisible = true;
+       // }
+    }
 
         private void OnAddButtonClicked(object sender, EventArgs e)
         {
             name = ExpenseName.Text;
-            amount = ExpenseAmount.Text;
+            amount = Convert.ToDecimal(ExpenseAmount.Text);
 
-            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(amount) && !string.IsNullOrWhiteSpace(category.ToString()))
+            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(ExpenseAmount.Text) && !string.IsNullOrWhiteSpace(category.ToString()))
             {
-                
+
 
                 // Hard coded values to create file name Tayal and set budget as $2000 
 
@@ -64,11 +64,11 @@ namespace ExpenseTracker
                 //FileManager fm = new FileManager();
                 //fm.SaveDataToFile("Tayal", firstFile);
 
-                FileManager fm = new FileManager();
-                string readData = fm.ReadFileData("Tayal");
-                User currentUserFile = JsonSerializer.Deserialize<User>(readData);
+                //string readData = FileManager.ReadFileData("Tayal");
+                //User currentUserFile = JsonSerializer.Deserialize<User>(readData);
+                var currentUser = UserManager.GetLoggedInUser();
 
-                foreach (Budget budget in currentUserFile.Budgets)
+                foreach (Budget budget in currentUser.Budgets)
                 {
                     if (budget.BudgetDate.Month == date.Month)
                     {
@@ -77,8 +77,8 @@ namespace ExpenseTracker
                         budget.AddExpense(newExpense);
                     }
                 }
-                var updatedExpenseJsonString = JsonSerializer.Serialize(currentUserFile);
-                fm.SaveDataToFile("Tayal", updatedExpenseJsonString );
+                var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
+                FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString );
             }
             else
             {
