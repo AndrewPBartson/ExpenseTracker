@@ -33,62 +33,28 @@ namespace ExpenseTracker
             //   - Disable "Save" button until user enters some amount
         }
 
-        private void OnEditButtonClicked(object sender, EventArgs e)
-        {
-            //    //if (File.Exists(note.FileName))
-            //    //{
-            //    //    File.Delete(note.FileName);
-            //    //}
-            //    //editor.Text = string.Empty;
-            //    //await Navigation.PushModalAsync(new AddExpensePage
-            //    //{
-            //    //    //BindingContext = (Expense)e.SelectedItem
-            //    //});
+        private void OnEditButtonClicked(object sender, EventArgs e) { 
+
         }
 
         private void OnSaveButtonClicked(object sender, EventArgs e)
         {
             Budget currentBudget = new Budget();
-            currentBudget.BudgetGoalAmount = float.Parse(BudgetInput.Text);
+            currentBudget.BudgetGoalAmount = decimal.Parse(BudgetInput.Text);
             currentBudget.BudgetDate = DateTime.Now;
-            currentBudget.ListOfExpenses = new List<Expenses>();
-            // currentBudget.BudgetMonth = DateTime.Now.ToString("MMMM");
+            currentBudget.ExpenseList = new List<Expenses>();
 
-            User testUser = new User();
-            testUser.UserName = "Swati";
-            testUser.Password = "123456";
-            testUser.Budgets = new List<Budget>();
-            testUser.Budgets.Add(currentBudget);
+            User currentUser = new User();
+            currentUser = UserManager.GetLoggedInUser();
+            currentUser.Budgets.Add(currentBudget);
 
-            // save data to file
-            var firstFile = JsonSerializer.Serialize(testUser);
-            FileManager fm = new FileManager();
-            fm.SaveDataToFile("Swati", firstFile);
-
-            // read data back from file
-            string readData = fm.ReadFileData("Swati");
-            User currentUserFile = JsonSerializer.Deserialize<User>(readData);
-
-            // save data again
-            var updatedExpenseJsonString = JsonSerializer.Serialize(currentUserFile);
-            fm.SaveDataToFile("Swati", updatedExpenseJsonString);
-
-            // read back again
-            string s = fm.ReadFileData("Swati");
+            UserManager.SaveLoggedInUserData();
+            Console.WriteLine("hi");
         }
 
         private void OnViewExpensesButtonClicked(object sender, EventArgs e)
         {
-            //await Navigation.PushModalAsync(new ExpensePage
-            //{
-            //    //BindingContext = (Expense)e.SelectedItem
-            //});
 
-            // from onsavebuttonclicked
-            //await Navigation.PushModalAsync(new ExpensePage
-            //{
-            //    BindingContext = (Expense)e.SelectedItem
-            //});
         }
     }
 }
