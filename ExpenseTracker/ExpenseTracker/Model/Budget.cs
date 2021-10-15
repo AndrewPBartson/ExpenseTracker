@@ -7,7 +7,7 @@ namespace ExpenseTracker.Model
     public class Budget
     {
         public float BudgetGoalAmount { get; set; }
-        public List<Expenses> Expenses { get; private set; }
+        public List<Expenses> Expenses { get; set; }
         public DateTime BudgetDate { get; set; }
 
         // Buget should allow you to Add expense, Edit Expense and Delete Expense

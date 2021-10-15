@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -19,8 +20,7 @@ namespace ExpenseTracker
         }
 
         protected override void OnAppearing()
-        {
-            base.OnAppearing();
+        {     
             // if there is a value for budget from reading a file
             //   - Populate budget amount into field
             //   - Show "Edit" button
@@ -35,24 +35,40 @@ namespace ExpenseTracker
 
         private void OnEditButtonClicked(object sender, EventArgs e)
         {
-        //    //var expense = (Expense)BindingContext;
-        //    //if (File.Exists(note.FileName))
-        //    //{
-        //    //    File.Delete(note.FileName);
-        //    //}
-        //    //editor.Text = string.Empty;
-        //    //await Navigation.PushModalAsync(new AddExpensePage
-        //    //{
-        //    //    //BindingContext = (Expense)e.SelectedItem
-        //    //});
+            //    //if (File.Exists(note.FileName))
+            //    //{
+            //    //    File.Delete(note.FileName);
+            //    //}
+            //    //editor.Text = string.Empty;
+            //    //await Navigation.PushModalAsync(new AddExpensePage
+            //    //{
+            //    //    //BindingContext = (Expense)e.SelectedItem
+            //    //});
         }
 
         private void OnSaveButtonClicked(object sender, EventArgs e)
         {
-            //await Navigation.PushModalAsync(new ExpensePage
-            //{
-            //    BindingContext = (Expense)e.SelectedItem
-            //});
+            Budget currentBudget = new Budget();
+            currentBudget.BudgetGoalAmount = float.Parse(BudgetInput.Text);
+            currentBudget.BudgetDate = DateTime.Now;
+           
+            // currentBudget.BudgetMonth = DateTime.Now.ToString("MMMM");
+
+            User testUser = new User();
+            testUser.UserName = "Swati";
+            testUser.Budgets = new List<Budget>();
+
+            testUser.Budgets.Add(currentBudget);
+
+            var firstFile = JsonSerializer.Serialize(testUser);
+            FileManager fm = new FileManager();
+            fm.SaveDataToFile("Swati", firstFile);
+            string readData = fm.ReadFileData("Swati");
+            User currentUserFile = JsonSerializer.Deserialize<User>(readData);
+
+            var updatedExpenseJsonString = JsonSerializer.Serialize(currentUserFile);
+            fm.SaveDataToFile("Swati", updatedExpenseJsonString);
+            string s = fm.ReadFileData("Swati");
         }
 
         private void OnViewExpensesButtonClicked(object sender, EventArgs e)
@@ -60,6 +76,12 @@ namespace ExpenseTracker
             //await Navigation.PushModalAsync(new ExpensePage
             //{
             //    //BindingContext = (Expense)e.SelectedItem
+            //});
+
+            // from onsavebuttonclicked
+            //await Navigation.PushModalAsync(new ExpensePage
+            //{
+            //    BindingContext = (Expense)e.SelectedItem
             //});
         }
     }
