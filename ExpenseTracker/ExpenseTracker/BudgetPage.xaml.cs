@@ -31,10 +31,13 @@ namespace ExpenseTracker
             // if there is NOT a value for budget
             //   - Disable "Edit" button
             //   - Disable "Save" button until user enters some amount
+
         }
 
-        private void OnEditButtonClicked(object sender, EventArgs e) { 
 
+        private async void OnEditButtonClicked(object sender, EventArgs e) 
+        { 
+        await Navigation.PushModalAsync(new AddExpensePage());
         }
 
         private void OnSaveButtonClicked(object sender, EventArgs e)
@@ -42,7 +45,7 @@ namespace ExpenseTracker
             Budget currentBudget = new Budget();
             currentBudget.BudgetGoalAmount = decimal.Parse(BudgetInput.Text);
             currentBudget.BudgetDate = DateTime.Now;
-            currentBudget.ExpenseList = new List<Expenses>();
+            currentBudget.ListOfExpenses = new List<Expenses>();
 
             User currentUser = new User();
             currentUser = UserManager.GetLoggedInUser();
@@ -50,6 +53,7 @@ namespace ExpenseTracker
 
             UserManager.SaveLoggedInUserData();
             Console.WriteLine("hi");
+
         }
 
         private void OnViewExpensesButtonClicked(object sender, EventArgs e)

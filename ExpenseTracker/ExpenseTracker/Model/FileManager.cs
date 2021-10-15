@@ -25,6 +25,8 @@ namespace ExpenseTracker.Model
                 if (!string.IsNullOrEmpty(userFileFound))
                 {
                     return File.ReadAllText(jsonFilePath);
+                    //Console.WriteLine("Reading the file");
+                    //Console.WriteLine(File.ReadAllText(jsonFilePath));
                 }
             }
             return null;
