@@ -44,8 +44,9 @@
                     <Label Margin="14,25,10,0"
                        Text="Month-to-Date:" FontSize="20" />
                     <Label Margin="10,25,10,0"
-                       Text="$XXXX.00" FontSize="18"
-                       Grid.Column="1" />
+                           Text="You have spend $XXXX from your monthly goal of $XXXX." 
+                           FontSize="17"
+                           Grid.Column="1" />
                 </Grid>
 
                 <Label Margin="14,25,10,0"
@@ -178,8 +179,8 @@
                            Text="$XXX.00" FontSize="18"
                            Grid.Row="3" Grid.Column="3" />
                 </Grid>
-                <!-- ViewExpenseButton might be unnecessary if conditional "Continue" button
-                      is implemented -->
+                <!-- ViewExpenseButton might be unnecessary if conditional 
+                      "Continue" button is implemented -->
                 <Button x:Name="ViewExpensesButton" 
                         Text="View Expenses" Grid.Row="7"
                         Margin="20,10,20,0"

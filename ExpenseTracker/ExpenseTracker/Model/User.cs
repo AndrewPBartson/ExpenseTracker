@@ -10,5 +10,16 @@ namespace ExpenseTracker.Model
         public string Password { get; set; }
         public List<Budget> Budgets { get; set; }
 
+        public User ()
+        { }
+
+        public User(string username)
+        {
+            UserName = username;
+            Password = "ABC123";
+            Budgets = new List<Budget>();
+        }
     }
+
+  
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -19,8 +20,7 @@ namespace ExpenseTracker
         }
 
         protected override void OnAppearing()
-        {
-            base.OnAppearing();
+        {     
             // if there is a value for budget from reading a file
             //   - Populate budget amount into field
             //   - Show "Edit" button
@@ -31,28 +31,29 @@ namespace ExpenseTracker
             // if there is NOT a value for budget
             //   - Disable "Edit" button
             //   - Disable "Save" button until user enters some amount
+
         }
 
-        private void OnEditButtonClicked(object sender, EventArgs e)
-        {
-        //    //var expense = (Expense)BindingContext;
-        //    //if (File.Exists(note.FileName))
-        //    //{
-        //    //    File.Delete(note.FileName);
-        //    //}
-        //    //editor.Text = string.Empty;
-        //    //await Navigation.PushModalAsync(new AddExpensePage
-        //    //{
-        //    //    //BindingContext = (Expense)e.SelectedItem
-        //    //});
+
+        private async void OnEditButtonClicked(object sender, EventArgs e) 
+        { 
+        await Navigation.PushModalAsync(new AddExpensePage());
         }
 
         private void OnSaveButtonClicked(object sender, EventArgs e)
         {
-            //await Navigation.PushModalAsync(new ExpensePage
-            //{
-            //    BindingContext = (Expense)e.SelectedItem
-            //});
+            Budget currentBudget = new Budget();
+            currentBudget.BudgetGoalAmount = decimal.Parse(BudgetInput.Text);
+            currentBudget.BudgetDate = DateTime.Now;
+            currentBudget.ListOfExpenses = new List<Expenses>();
+
+            User currentUser = new User();
+            currentUser = UserManager.GetLoggedInUser();
+            currentUser.Budgets.Add(currentBudget);
+
+            UserManager.SaveLoggedInUserData();
+            Console.WriteLine("hi");
+
         }
 
         private void OnViewExpensesButtonClicked(object sender, EventArgs e)
