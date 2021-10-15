@@ -57,10 +57,10 @@ namespace ExpenseTracker
 
         private void OnViewExpensesButtonClicked(object sender, EventArgs e)
         {
-            //await Navigation.PushModalAsync(new ExpensePage
-            //{
-            //    //BindingContext = (Expense)e.SelectedItem
-            //});
+            await Navigation.PushModalAsync(new ExpensesPage
+            {
+                BindingContext = (Expense)e.SelectedItem
+            });
         }
     }
 }

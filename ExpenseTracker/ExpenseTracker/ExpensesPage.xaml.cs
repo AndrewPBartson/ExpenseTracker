@@ -21,43 +21,51 @@ namespace ExpenseTracker
         protected override void OnAppearing()
         {
 
+            Costants.CurretMonth = Convert.ToDateTime("2021/10");
 
-
-            //var ExpensesList= new List<Expenses>
-            //var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            //FilePath = FilePath + Costants.FileName;
-
-
-            List<Expense> ExpenseList = new List<Expense>();
+            List<Expenses> ExpenseList = new List<Expenses>();
             FileManagement CurrentData = new FileManagement();
 
+           
             ExpenseList = CurrentData.ExpenseList_CurrentMonth();
             ExpensesListView.ItemsSource = ExpenseList;
-            double CurrentMonthCost = CurrentData.Calculate_MonthlyCost();
-
+            decimal CurrentMonthCost = CurrentData.Calculate_MonthlyCost();
+            decimal AmonthTOGoal= CurrentData.AmountToGoal();
            
-            AmountLabel.Text = "Monthly Summery is " + Convert.ToString(CurrentMonthCost);
+            AmountLabel.Text = " Summery " + Convert.ToString(CurrentMonthCost);
+          //  RemainedLable.Text = "Your Remained Amount" + Convert.ToString(AmonthTOGoal);
 
 
-
-
-    }
-
-        
-        private void AddNewExpenses_Click(object sender, EventArgs e)
-        {
-
+            
         }
 
-        private void ShowMonthlyBudgetSummary_Click(object sender, EventArgs e)
+        private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
 
-        private void ExpensesListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void AddNewExpenses_Click(object sender, EventArgs e)
         {
+            await Navigation.PushModalAsync(new AddExpensePage
+            {
+                BindingContext = new Expenses()
+            });
+        }
 
+        private  async void ShowMonthlyBudgetSummary_Click(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new BudgetPage
+            {
+                BindingContext = new Budget()
+            }) ;
+        }
+
+        private async void ExpensesListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            await Navigation.PushModalAsync(new AddExpensePage
+            {
+                BindingContext = (Expenses)e.SelectedItem
+            });
         }
     }
 }

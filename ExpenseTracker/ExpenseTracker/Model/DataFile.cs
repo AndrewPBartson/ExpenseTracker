@@ -7,7 +7,7 @@ namespace ExpenseTracker.Model
     class DataFile
     {
         public User AppUser { get; set; }
-        public MothlyGoal Budget { get; set; }
+       // public MothlyGoal Budget { get; set; }
 
 
 

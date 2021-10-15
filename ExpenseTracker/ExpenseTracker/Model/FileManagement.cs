@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Text.Json;
 
 namespace ExpenseTracker.Model
 {
@@ -9,102 +10,97 @@ namespace ExpenseTracker.Model
     {   
         
         
-        public void FileNameAssignment()
+        
+
+        
+
+
+        public User Load_Data()
         {
+            //SaveFile();
+            FileManager file = new FileManager();
+            string fileName = "Filcity202110";
 
-            Costants.FileName = Costants.Currentuser.UserName.ToString() + Costants.CurretMonth.ToString() ;
-        }
+            string jsonString = file.ReadFileData(fileName);
+            User DataFile = JsonSerializer.Deserialize<User>(jsonString);
 
-        public DataFile Load_All_Data()
-
-        {
-             var Filepath = Environment.CurrentDirectory + Costants.FileName+".json";
-
-            //   var CurrentValidData = File.ReadAllText(Filepath);
-
-          // List<DataFile> CurrentListdata = new List<DataFile>();
-            DataFile Currentdata = new DataFile();
-
-            Expense ExpenseItem1 = new Expense();
-            Expense ExpenseItem2 = new Expense();
-            Expense ExpenseItem3 = new Expense();
-            List<Expense> ListExpenseItem = new List<Expense>();
-            User CurrentUser = new User();
-            MothlyGoal Budget = new MothlyGoal();
-
-            CurrentUser.UserName = "Filicity";
-            Budget.AmounthGoal = 3000.00;
-            Budget.Monthes = Convert.ToDateTime("2021/10");
-
-            //Currentdata.AppUser.UserName = "Filicity";
-            //Currentdata.Budget.AmounthGoal = 3000.00;
-            //Currentdata.Budget.Monthes = Convert.ToDateTime("2021/10");
-            Currentdata.AppUser = CurrentUser;
-            Currentdata.Budget = Budget;
-
-            ExpenseItem1.ExpenseAmount = 100;
-            ExpenseItem1.Expensecategory = Category.Home;
-            ExpenseItem1.ExpenseDate = Convert.ToDateTime("2021/10/01");
-            ExpenseItem1.ExpenseName = "Area Rug";
-
-
-            ListExpenseItem.Add(ExpenseItem1);
-           // Currentdata.Budget.expenses.Add(ExpenseItem);
             
+            return DataFile;
 
-            ExpenseItem2.ExpenseAmount = 100;
-            ExpenseItem2.Expensecategory = Category.Grocery;
-            ExpenseItem2.ExpenseDate = Convert.ToDateTime("2021/10/02");
-            ExpenseItem2.ExpenseName = "Dairy";
-
-
-            //Currentdata.Budget.expenses.Add(ExpenseItem);
-
-
-
-            ListExpenseItem.Add(ExpenseItem2);
-            ExpenseItem3.ExpenseAmount = 150;
-            ExpenseItem3.Expensecategory = Category.Clothes;
-            ExpenseItem3.ExpenseDate = Convert.ToDateTime("2021/10/04");
-            ExpenseItem3.ExpenseName = "Jacket";
-            ListExpenseItem.Add(ExpenseItem3);
-
-            //Currentdata.Budget.expenses.Add(ExpenseItem);
-            // CurrentListdata.Add(Currentdata);
-            Currentdata.Budget.expenses = ListExpenseItem;
-
-            return Currentdata;
-
-        }
-
-        public List<Expense> ExpenseList_CurrentMonth()
-        {
-             DataFile CurrentListdata = new DataFile();
-            CurrentListdata = Load_All_Data();
-
-            List<Expense> CurrentMonthExpense = new List<Expense>() ;
-
-           return( CurrentListdata.Budget.expenses);
 
         }
 
 
-        public double Calculate_MonthlyCost()
+        public void SaveFile()
         {
-            List<Expense> CurrentMonthExpense = new List<Expense>();
+            FileManager file = new FileManager();
+            User Currentdata = new User();
+         
+            Currentdata = Load_All_Data();
+            //string fileName = "Filcity202110.json";
+
+            string jsonString = JsonSerializer.Serialize(Currentdata);
+            if (file.SaveDataToFile("Filcity202110", jsonString))
+            {
+               // mbox
+            }
+
+        }
+
+
+
+        public List<Expenses> ExpenseList_CurrentMonth()
+        {
+           
+            List<Expenses> CurrentMonthExpense = new List<Expenses>();
+            List<Budget> Budgets = new List<Budget>();
+            
+            User CurrentListdata = Load_Data();
+            Budgets = CurrentListdata.Budgets;
+          
+            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate == Costants.CurretMonth);
+            CurrentMonthExpense = Budget.Expenses;
+            
+            return (CurrentMonthExpense);
+
+        }
+
+        public decimal Calculate_MonthlyCost()
+        {
+            List<Expenses> CurrentMonthExpense = new List<Expenses>();
             CurrentMonthExpense = ExpenseList_CurrentMonth();
 
-            double monthlyCost=0.00;
+            decimal  monthlyCost= 0.0m;
 
             foreach( var a in CurrentMonthExpense)
             {
-                monthlyCost = monthlyCost + a.ExpenseAmount;
-
-
-            }
+                if (a != null)
+                {
+                    monthlyCost = monthlyCost + a.ExpenseAmount;
+                }
+               }
             return monthlyCost;
         }
-        
+
+
+        public decimal AmountToGoal()
+        {
+            List<Expenses> CurrentMonthExpense = new List<Expenses>();
+            List<Budget> Budgets = new List<Budget>();
+
+            User CurrentListdata = Load_Data();
+            Budgets = CurrentListdata.Budgets;
+
+            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate == Costants.CurretMonth);
+
+            if (Budget != null)
+            {
+                decimal CurrentBudgetExpencess = Calculate_MonthlyCost();
+
+                return (Budget.BudgetGoalAmount - CurrentBudgetExpencess);
+            }
+            return 0;
+        }
 
     }
 }

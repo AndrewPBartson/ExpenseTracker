@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ExpenseTracker.ExpensesPage"
-             xmlns:Model="clr-namespace:ExpenseTracker.Model"
+             xmlns:Model="clr-namespace:ExpenseTracker.Model"          
              >
+    
     <ContentPage.ToolbarItems >
         <ToolbarItem Text="+" Clicked="AddNewExpenses_Click" ></ToolbarItem>
         <ToolbarItem Text="Budget Summary" Clicked="ShowMonthlyBudgetSummary_Click" ></ToolbarItem>
@@ -11,15 +12,22 @@
     <StackLayout>
 
         <Button Text="Add" Clicked="AddNewExpenses_Click"/>
-        <Label x:Name="Title" Text="Current Month Expenses"/>
+       
         <ListView x:Name="ExpensesListView"
                    Margin="20"
                    ItemSelected="ExpensesListView_ItemSelected">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="Model:Expense">
-                    <TextCell Text ="{Binding ExpenseName}" Detail="{Binding ExpenseAmount}"></TextCell>
+            <ListView.ItemTemplate >
+
+               
+             <DataTemplate x:DataType="Model:Expenses">
+                   
+                    <TextCell Text ="{Binding Description}" Detail="{Binding ExpenseAmount}" 
+                              TextColor="Black" DetailColor="DarkBlue"
+                               >
+                        
+                    </TextCell>
                 </DataTemplate>
-                
+
             </ListView.ItemTemplate>
             
             
@@ -29,8 +37,8 @@
                     
             </Grid.RowDefinitions>
         </Grid>
-        <Label x:Name="AmountLabel" Text="Summary"/>
-
+        <Label x:Name="AmountLabel" Text="Summary" FontSize="Medium"  />
+        <Label x:Name="RemainedLable" Text="Your Remained Amount" FontSize="Medium" />
 
     </StackLayout>
    
