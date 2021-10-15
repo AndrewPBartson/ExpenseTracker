@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ExpenseTracker.Model
 { 
@@ -20,14 +18,14 @@ namespace ExpenseTracker.Model
     {
         public int ExpenseId { get; set; }
         public string Description { get; set; }
-        public string ExpenseAmount { get; set; }
+        public decimal ExpenseAmount { get; set; }
         public DateTime ExpenseDate { get; set; }
         public Category ExpenseCategory { get; set; }
 
         public Expenses()
         {
         }
-        public Expenses(string name, string amount, DateTime date, Category category)
+        public Expenses(string name, decimal amount, DateTime date, Category category)
         {
             Description = name;
             ExpenseAmount = amount;

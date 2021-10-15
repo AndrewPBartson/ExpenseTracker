@@ -6,65 +6,62 @@ using System.Text.Json;
 
 namespace ExpenseTracker.Model
 {
-    //validation (check for user name and password if present)
-    //create a new user if not already present
-    //save data to file of specific user
-    
-
-    public class UserManager
+    public static class UserManager
     {
-        User currentUser = null;
-        FileManager fileManager;
+        // This holds the currently logged in User object.
+        private static User LoggedInUser;
 
-        public UserManager()
+        public static User Login(string username, string password)
         {
-            this.fileManager = new FileManager();
-        }
-
-        public bool IsValidUser(string username, string password)
-        {
-            //check if user exists or not in .json
-            string userJson = this.fileManager.ReadFileData(username);
-            if (userJson != null)
+            LoggedInUser = null;
+            var returnedstring = FileManager.ReadFileData(username);
+            if (!string.IsNullOrEmpty(returnedstring))
             {
-                return true;
+
+                User userobj = JsonSerializer.Deserialize<User>(returnedstring);
+                if (userobj.Password == password)
+                {
+                    LoggedInUser = userobj;
+                }
             }
-            return false;
+            return LoggedInUser;
         }
 
-        public User GetUser(string username)
+        public static User GetLoggedInUser()
         {
-
-            // TODO: Read JSON file and create User object and return.
-
-
-            return null;
+            return LoggedInUser;
         }
 
-        public User CreatenewUser(string username, string password)
+        public static User CreatenewUser(string username, string password)
         {
-            this.currentUser = new User()
+            LoggedInUser = null;
+
+            var newUser = new User()
             {
                 UserName = username,
                 Password = password,
                 Budgets = new List<Budget>()
             };
 
-            var userJsonString = JsonSerializer.Serialize(this.currentUser);
+            var userJsonString = JsonSerializer.Serialize(newUser);
 
             // Save user data to File
-            if (this.fileManager.SaveDataToFile(username, userJsonString))
+            if (FileManager.SaveDataToFile(username, userJsonString))
             {
-                return this.currentUser;
+                LoggedInUser = newUser;
             }
 
-            // If unable to save user data return null.
-            return null;
+            return LoggedInUser;
         }
 
-        public void SaveUserData(User user)
+        public static void SaveLoggedInUserData()
         {
-            // TODO: Save user object to JSON and then to file.
+
+            if (LoggedInUser != null)
+            {
+                var serializedJsonstring = JsonSerializer.Serialize<User>(LoggedInUser);
+                FileManager.SaveDataToFile(LoggedInUser.UserName, serializedJsonstring);
+            }
         }
     }
 }
