@@ -6,14 +6,14 @@ using System.Text;
 
 namespace ExpenseTracker.Model
 {
-    public class FileManager
+    public static class FileManager
     {
-        string defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        private static string defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-        public string ReadFileData(string fileName)
+        public static string ReadFileData(string fileName)
         {
             // The File path for user
-            string jsonFilePath= Path.Combine(this.defaultPath, $"{fileName.ToLower()}.json");
+            string jsonFilePath= Path.Combine(defaultPath, $"{fileName.ToLower()}.json");
 
             // Get all the File names from Directory that match *.json pattern.
             var filePaths = Directory.EnumerateFiles(defaultPath, $"*.json");
@@ -30,11 +30,11 @@ namespace ExpenseTracker.Model
             return null;
         }
 
-        public bool SaveDataToFile(string fileName, string data)
+        public static bool SaveDataToFile(string fileName, string data)
         {
             // Create File name
             var jsonFileName = $"{fileName.ToLower()}.json";
-            File.WriteAllText(Path.Combine(this.defaultPath, jsonFileName), data);
+            File.WriteAllText(Path.Combine(defaultPath, jsonFileName), data);
             return true;
         }
     }
