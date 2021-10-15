@@ -7,16 +7,18 @@ namespace ExpenseTracker.Model
     public class Budget
     {
         public float BudgetGoalAmount { get; set; }
-        public List<Expenses> Expenses { get; set; }
+        public List<Expenses> ListOfExpenses { get; set; }
         public DateTime BudgetDate { get; set; }
 
-        // Buget should allow you to Add expense, Edit Expense and Delete Expense
-
+        //public Budget(string setBudget)
+        //{
+        //    BudgetGoalAmount = float.Parse(setBudget);
+        //    BudgetDate = DateTime.Now;
+        //    ListOfExpenses = new List<Expenses>();
+        //}
 
         public List<Expenses> AddExpense(Expenses expobj)
         {
-           
-
             return null;
         }
 
@@ -26,11 +28,8 @@ namespace ExpenseTracker.Model
         }
 
         public List<Expenses> DeleteExpense(Expenses expobj)
-        {
-           
+        { 
             return null;
         }
-
-
     }
 }

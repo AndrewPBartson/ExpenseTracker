@@ -51,23 +51,29 @@ namespace ExpenseTracker
             Budget currentBudget = new Budget();
             currentBudget.BudgetGoalAmount = float.Parse(BudgetInput.Text);
             currentBudget.BudgetDate = DateTime.Now;
-           
+            currentBudget.ListOfExpenses = new List<Expenses>();
             // currentBudget.BudgetMonth = DateTime.Now.ToString("MMMM");
 
             User testUser = new User();
             testUser.UserName = "Swati";
+            testUser.Password = "123456";
             testUser.Budgets = new List<Budget>();
-
             testUser.Budgets.Add(currentBudget);
 
+            // save data to file
             var firstFile = JsonSerializer.Serialize(testUser);
             FileManager fm = new FileManager();
             fm.SaveDataToFile("Swati", firstFile);
+
+            // read data back from file
             string readData = fm.ReadFileData("Swati");
             User currentUserFile = JsonSerializer.Deserialize<User>(readData);
 
+            // save data again
             var updatedExpenseJsonString = JsonSerializer.Serialize(currentUserFile);
             fm.SaveDataToFile("Swati", updatedExpenseJsonString);
+
+            // read back again
             string s = fm.ReadFileData("Swati");
         }
 
