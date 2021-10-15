@@ -18,7 +18,7 @@
     <None Remove="NewFolder1\**" />
     <None Remove="NewFolder2\**" />
   </ItemGroup>
-
+	
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
@@ -26,7 +26,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="AddExpensePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

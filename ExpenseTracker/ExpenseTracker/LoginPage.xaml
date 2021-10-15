@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ExpenseTracker.LoginPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry x:Name="UsernameEntry" Placeholder="Username" />
+            <Entry x:Name="PasswordEntry" IsPassword="True" Placeholder="Password"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions> 
+
+                <Button Text="Sign In"
+                        Clicked="SignInButtonClicked" />
+                <Button Text="Sign Up"
+                        Clicked="SignUpButtonClicked"
+                        Grid.Column="1"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
