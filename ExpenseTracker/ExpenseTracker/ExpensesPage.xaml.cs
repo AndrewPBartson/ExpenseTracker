@@ -21,13 +21,15 @@ namespace ExpenseTracker
         protected override void OnAppearing()
         {
 
-            Costants.CurretMonth = Convert.ToDateTime("2021/10");
+
 
             List<Expenses> ExpenseList = new List<Expenses>();
             FileManagement CurrentData = new FileManagement();
 
            
             ExpenseList = CurrentData.ExpenseList_CurrentMonth();
+
+
             ExpensesListView.ItemsSource = ExpenseList;
             decimal CurrentMonthCost = CurrentData.Calculate_MonthlyCost();
             decimal AmonthTOGoal= CurrentData.AmountToGoal();

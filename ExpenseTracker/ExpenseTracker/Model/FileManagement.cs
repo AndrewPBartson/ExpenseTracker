@@ -9,45 +9,7 @@ namespace ExpenseTracker.Model
     class FileManagement
     {   
         
-        
-        
-
-        
-
-
-        public User Load_Data()
-        {
-            //SaveFile();
-            FileManager file = new FileManager();
-            string fileName = "Filcity202110";
-
-            string jsonString = file.ReadFileData(fileName);
-            User DataFile = JsonSerializer.Deserialize<User>(jsonString);
-
-            
-            return DataFile;
-
-
-        }
-
-
-        public void SaveFile()
-        {
-            FileManager file = new FileManager();
-            User Currentdata = new User();
-         
-            Currentdata = Load_All_Data();
-            //string fileName = "Filcity202110.json";
-
-            string jsonString = JsonSerializer.Serialize(Currentdata);
-            if (file.SaveDataToFile("Filcity202110", jsonString))
-            {
-               // mbox
-            }
-
-        }
-
-
+             
 
         public List<Expenses> ExpenseList_CurrentMonth()
         {
@@ -55,8 +17,8 @@ namespace ExpenseTracker.Model
             List<Expenses> CurrentMonthExpense = new List<Expenses>();
             List<Budget> Budgets = new List<Budget>();
             
-            User CurrentListdata = Load_Data();
-            Budgets = CurrentListdata.Budgets;
+            //User CurrentListdata = UserManager.GetLoggedInUser;
+            Budgets = UserManager.GetLoggedInUser.Budgets;
           
             var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate == Costants.CurretMonth);
             CurrentMonthExpense = Budget.Expenses;
@@ -88,9 +50,10 @@ namespace ExpenseTracker.Model
             List<Expenses> CurrentMonthExpense = new List<Expenses>();
             List<Budget> Budgets = new List<Budget>();
 
-            User CurrentListdata = Load_Data();
-            Budgets = CurrentListdata.Budgets;
+            //User CurrentListdata = Load_Data();
+            //Budgets = CurrentListdata.Budgets;
 
+            Budgets = UserManager.GetLoggedInUser.Budgets;
             var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate == Costants.CurretMonth);
 
             if (Budget != null)

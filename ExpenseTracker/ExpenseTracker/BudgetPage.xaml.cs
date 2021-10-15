@@ -54,14 +54,20 @@ namespace ExpenseTracker
             UserManager.SaveLoggedInUserData();
             Console.WriteLine("hi");
 
+
+
+
         }
 
         private void OnViewExpensesButtonClicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new ExpensesPage
-            {
-                BindingContext = (Expense)e.SelectedItem
-            });
+         
+            string w = "!!!!";
+
+
+             await Navigation.PushModalAsync(new ExpensesPage { BindingContext = new Expenses() });
+            //await Navigation.PopModalAsync(new ExpensesPage());
+            return;
         }
     }
 }
