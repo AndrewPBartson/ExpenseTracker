@@ -20,9 +20,20 @@ namespace ExpenseTracker.Model
     {
         public int ExpenseId { get; set; }
         public string Description { get; set; }
-        public float ExpenseAmount { get; set; }
+        public string ExpenseAmount { get; set; }
         public DateTime ExpenseDate { get; set; }
         public Category ExpenseCategory { get; set; }
+
+        public Expenses()
+        {
+        }
+        public Expenses(string name, string amount, DateTime date, Category category)
+        {
+            Description = name;
+            ExpenseAmount = amount;
+            ExpenseDate = date;
+            ExpenseCategory = category;
+        }
     }
 
 }

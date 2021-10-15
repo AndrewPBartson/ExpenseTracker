@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ExpenseTracker.Model
@@ -7,17 +8,28 @@ namespace ExpenseTracker.Model
     public class Budget
     {
         public float BudgetGoalAmount { get; set; }
-        public List<Expenses> Expenses { get; private set; }
+        public List<Expenses> ListOfExpenses { get; set; }
         public DateTime BudgetDate { get; set; }
 
         // Buget should allow you to Add expense, Edit Expense and Delete Expense
 
+        public Budget()
+        {
+            ListOfExpenses = new List<Expenses>();
+        }
+
+        public Budget(float setBudget)
+        {
+            BudgetGoalAmount = setBudget;
+            BudgetDate = DateTime.Now;
+            ListOfExpenses = new List<Expenses>();
+        }
 
         public List<Expenses> AddExpense(Expenses expobj)
         {
-           
+            ListOfExpenses.Add(expobj);
 
-            return null;
+            return ListOfExpenses;
         }
 
         public List<Expenses> EditExpense(Expenses expobj)
@@ -31,6 +43,19 @@ namespace ExpenseTracker.Model
             return null;
         }
 
-
+        public int getNextId(List<Expenses> expenses)
+        {
+            int nextId;
+            Expenses lastExpense = expenses.LastOrDefault();
+            if (lastExpense == null)
+            {
+                nextId = 0;
+            }
+            else
+            {
+                nextId = lastExpense.ExpenseId + 1;
+            }
+            return nextId;
+        }
     }
 }

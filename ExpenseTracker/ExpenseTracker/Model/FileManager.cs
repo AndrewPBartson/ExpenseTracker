@@ -10,6 +10,7 @@ namespace ExpenseTracker.Model
     {
         string defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
+        
         public string ReadFileData(string fileName)
         {
             // The File path for user
@@ -25,6 +26,8 @@ namespace ExpenseTracker.Model
                 if (!string.IsNullOrEmpty(userFileFound))
                 {
                     return File.ReadAllText(jsonFilePath);
+                    //Console.WriteLine("Reading the file");
+                    //Console.WriteLine(File.ReadAllText(jsonFilePath));
                 }
             }
             return null;
