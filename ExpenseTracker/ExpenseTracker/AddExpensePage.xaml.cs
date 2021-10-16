@@ -1,11 +1,5 @@
 ﻿using ExpenseTracker.Model;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Text.Json;
@@ -26,11 +20,6 @@ namespace ExpenseTracker
         public decimal amount;
         public DateTime date;
         public Category category;
-
-        //Initializing on expense object -- Need to delete when integration is completed!
-       // Expenses expense = new Expenses("Cycle", 256, DateTime.Now.AddDays(-7), Category.Shopping);
-        
-
 
         protected override void OnAppearing()
         {
@@ -78,18 +67,19 @@ namespace ExpenseTracker
         {
             await Navigation.PopModalAsync();
         }
-        private void OnDeleteButtonClicked(object sender, EventArgs e)
+        private async void OnDeleteButtonClicked(object sender, EventArgs e)
         {
-            //expense.ExpenseId = 1;
-            //foreach (Budget budget in currentUser.Budgets)
-            //{
-            //    if (budget.BudgetDate.Month == expense.ExpenseDate.Month)
-            //    {
-            //        budget.ListOfExpenses.RemoveAll(x => x.ExpenseId == expense.ExpenseId);
-            //        DisplayAlert("Success", "Your expense has been deleted!", "OK");
-            //    }
-                
-            //}
+            var expense = (Expenses)BindingContext;
+            foreach (Budget budget in currentUser.Budgets)
+            {
+                if (budget.BudgetDate.Month == expense.ExpenseDate.Month)
+                {
+                    budget.ListOfExpenses.RemoveAll(x => x.ExpenseId == expense.ExpenseId);
+                    var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
+                    FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
+                    await Navigation.PopModalAsync();
+                }
+            }
         }
 
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
@@ -185,9 +175,6 @@ namespace ExpenseTracker
                     GiftIcon.BackgroundColor = Color.Aqua;
                     break;
                 }
-                
         }
-
     }
-    
 }
