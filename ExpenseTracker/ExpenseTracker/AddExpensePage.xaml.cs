@@ -21,10 +21,16 @@ namespace ExpenseTracker
             InitializeComponent();
         }
 
+        private User currentUser = UserManager.GetLoggedInUser();
         public string name;
         public decimal amount;
         public DateTime date;
         public Category category;
+
+        //Initializing on expense object -- Need to delete when integration is completed!
+        Expenses expense = new Expenses("Cycle", 256, DateTime.Now.AddDays(-7), Category.Shopping);
+        
+
 
         protected override void OnAppearing()
         {
@@ -34,13 +40,13 @@ namespace ExpenseTracker
             //    ExpenseLabel.Text = "Update Expense";
             //    ExpenseName.Text = expense.Description;
             //    ExpenseAmount.Text = expense.ExpenseAmount.ToString();
-            //    //ExpenseDate = expense.ExpenseDate;
-            //    ExpenseCategory.Text = expense.ExpenseCategory.ToString();
+            //    ExpenseDate.Date = expense.ExpenseDate;
+            //    ExpenseCategory.Text = $"Category: {expense.ExpenseCategory.ToString()}";
             //    //Highlight the selected category
             //    AddSaveButton.Text = "Update";
             //    DeleteButton.IsVisible = true;
-       // }
-    }
+            //}
+        }
 
         private void OnAddButtonClicked(object sender, EventArgs e)
         {
@@ -49,25 +55,6 @@ namespace ExpenseTracker
 
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(ExpenseAmount.Text) && !string.IsNullOrWhiteSpace(category.ToString()))
             {
-
-
-                // Hard coded values to create file name Tayal and set budget as $2000 
-
-                //Budget currentBudget = new Budget(2000);
-                //currentBudget.AddExpense(newExpense);
-
-                //User testUser = new User("Tayal");
-                //testUser.Budgets.Add(currentBudget);
-
-                //var firstFile = JsonSerializer.Serialize(testUser);
-
-                //FileManager fm = new FileManager();
-                //fm.SaveDataToFile("Tayal", firstFile);
-
-                //string readData = FileManager.ReadFileData("Tayal");
-                //User currentUserFile = JsonSerializer.Deserialize<User>(readData);
-                var currentUser = UserManager.GetLoggedInUser();
-
                 foreach (Budget budget in currentUser.Budgets)
                 {
                     if (budget.BudgetDate.Month == date.Month)
@@ -79,6 +66,7 @@ namespace ExpenseTracker
                 }
                 var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
                 FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString );
+                DisplayAlert("Success", "Your expense has been added!", "OK");
             }
             else
             {
@@ -92,7 +80,16 @@ namespace ExpenseTracker
         }
         private void OnDeleteButtonClicked(object sender, EventArgs e)
         {
-
+            expense.ExpenseId = 1;
+            foreach (Budget budget in currentUser.Budgets)
+            {
+                if (budget.BudgetDate.Month == expense.ExpenseDate.Month)
+                {
+                    budget.ListOfExpenses.RemoveAll(x => x.ExpenseId == expense.ExpenseId);
+                    DisplayAlert("Success", "Your expense has been deleted!", "OK");
+                }
+                
+            }
         }
 
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
@@ -102,7 +99,6 @@ namespace ExpenseTracker
             if (date.Month != DateTime.Now.Month)
             {
                 DisplayAlert("Warning!", "This item will not be visible under the current month's list", "OK");
-                //AddSaveButton.Text = "Edit";
             }
         }
 
@@ -132,10 +128,20 @@ namespace ExpenseTracker
 
         private void FoodIcon_Clicked(object sender, EventArgs e)
         {
-            category = Category.Food;
+            //category = Category.Food;
+            //ExpenseCategory.Text = $"Category: {category}";
+            //IconsEnableDisable();
+            //FoodIcon.BackgroundColor = Color.Aqua;
+
+            SetIconAndCategory(category, FoodIcon);
+        }
+
+        private void SetIconAndCategory(Category selectedCategory, ImageButton imageButton)
+        {
+            category = selectedCategory;
             ExpenseCategory.Text = $"Category: {category}";
             IconsEnableDisable();
-            FoodIcon.BackgroundColor = Color.Aqua;
+            imageButton.BackgroundColor = Color.Aqua;
         }
 
         private void EntertainmentIcon_Clicked(object sender, EventArgs e)
@@ -144,8 +150,10 @@ namespace ExpenseTracker
             ExpenseCategory.Text = $"Category: {category}";
             IconsEnableDisable();
             EntertainmentIcon.BackgroundColor = Color.Aqua;
-        }
 
+            //IconandCategory(Category.Entertainment);
+        }
+                
         private void EducationIcon_Clicked(object sender, EventArgs e)
         {
             category = Category.Education;
@@ -182,7 +190,41 @@ namespace ExpenseTracker
             GiftIcon.BackgroundColor = Color.LightGray;
         }
 
-        
+        //private void IconandCategory(Category category)
+        //{
+        //    ImageButton imageButton;
+        //    if (category == Category.Home)
+        //    {
+        //        ExpenseCategory.Text = $"Category: {category}";
+        //        imageButton = HomeIcon;
+        //        imageButton.BackgroundColor = Color.Aqua;
+        //    }
+        //    else if (category == Category.Shopping)
+        //    {
+        //        ExpenseCategory.Text = $"Category: {category}";
+        //        imageButton = ShoppingIcon;
+        //        imageButton.BackgroundColor = Color.Aqua;
+        //    }
+        //    else if (category == Category.Travel)
+        //    {
+        //        ExpenseCategory.Text = $"Category: {category}";
+        //        imageButton = TravelIcon;
+        //        imageButton.BackgroundColor = Color.Aqua;
+        //    }
+        //    else if (category == Category.Food)
+        //    {
+        //        ExpenseCategory.Text = $"Category: {category}";
+        //        imageButton = FoodIcon;
+        //        imageButton.BackgroundColor = Color.Aqua;
+        //    }
+        //    else if (category == Category.Entertainment)
+        //    {
+        //        ExpenseCategory.Text = $"Category: {category}";
+        //        imageButton = EntertainmentIcon;
+        //        imageButton.BackgroundColor = Color.Aqua;
+        //    }
+        //}
+
     }
     
 }

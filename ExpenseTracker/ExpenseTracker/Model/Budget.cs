@@ -24,21 +24,21 @@ namespace ExpenseTracker.Model
             ListOfExpenses = new List<Expenses>();
         }
 
-        public List<Expenses> AddExpense(Expenses expobj)
+        public List<Expenses> AddExpense(Expenses expense)
         {
-            ListOfExpenses.Add(expobj);
+            ListOfExpenses.Add(expense);
 
             return ListOfExpenses;
         }
 
-        public List<Expenses> EditExpense(Expenses expobj)
+        public List<Expenses> EditExpense(Expenses expense)
         {
             return null; 
         }
 
-        public List<Expenses> DeleteExpense(Expenses expobj)
+        public List<Expenses> DeleteExpense(Expenses expense)
         {
-           
+            ListOfExpenses.Remove(expense);
             return null;
         }
 
