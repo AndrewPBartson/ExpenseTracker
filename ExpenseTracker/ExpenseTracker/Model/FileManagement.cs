@@ -23,7 +23,7 @@ namespace ExpenseTracker.Model
             User CurrentListdata = UserManager.GetLoggedInUser();
             Budgets = CurrentListdata.Budgets;
           
-            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate == Costants.CurretMonth);
+            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month == Costants.CurretMonth.Month);
             if (Budget != null)
             {
                 CurrentMonthExpense = Budget.ListOfExpenses;
