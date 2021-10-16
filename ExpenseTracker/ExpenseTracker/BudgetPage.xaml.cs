@@ -20,9 +20,14 @@ namespace ExpenseTracker
         }
 
         protected override void OnAppearing()
-        {     
-            // if there is a value for budget from reading a file
-            //   - Populate budget amount into field
+        {
+            User currentUser = UserManager.GetLoggedInUser();
+            // if user has a Budget
+            if (currentUser.Budgets.Count != 0)     
+            {
+                BudgetInput.Text = currentUser.Budgets[0].BudgetGoalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            }
+            //   - Format budget amount in local currency
             //   - Show "Edit" button
             //   - Show "Continue" button
             //   - After user clicks "Edit", "Continue" button 
@@ -37,10 +42,10 @@ namespace ExpenseTracker
 
         private async void OnEditButtonClicked(object sender, EventArgs e) 
         { 
-        await Navigation.PushModalAsync(new AddExpensePage());
+            await Navigation.PushModalAsync(new AddExpensePage());
         }
 
-        private void OnSaveButtonClicked(object sender, EventArgs e)
+        private async void OnSaveButtonClicked(object sender, EventArgs e)
         {
             Budget currentBudget = new Budget();
             currentBudget.BudgetGoalAmount = decimal.Parse(BudgetInput.Text);
@@ -52,13 +57,16 @@ namespace ExpenseTracker
             currentUser.Budgets.Add(currentBudget);
 
             UserManager.SaveLoggedInUserData();
-            Console.WriteLine("hi");
+            await Navigation.PushModalAsync(new AddExpensePage());
 
         }
 
-        private void OnViewExpensesButtonClicked(object sender, EventArgs e)
+        private async void OnViewExpensesButtonClicked(object sender, EventArgs e)
         {
-
+         
+            await Navigation.PushModalAsync(new ExpensesPage { BindingContext = new Expenses() });
+           
+            return;
         }
     }
 }

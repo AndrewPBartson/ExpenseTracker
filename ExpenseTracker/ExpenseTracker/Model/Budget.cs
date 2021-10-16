@@ -33,7 +33,7 @@ namespace ExpenseTracker.Model
 
         public List<Expenses> EditExpense(Expenses expense)
         {
-            return null; 
+            return null;
         }
 
         public List<Expenses> DeleteExpense(Expenses expense)
@@ -41,7 +41,6 @@ namespace ExpenseTracker.Model
             ListOfExpenses.Remove(expense);
             return null;
         }
-
         public int getNextId(List<Expenses> expenses)
         {
             int nextId;
