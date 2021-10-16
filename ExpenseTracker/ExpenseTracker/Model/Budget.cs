@@ -33,12 +33,12 @@ namespace ExpenseTracker.Model
 
         public List<Expenses> EditExpense(Expenses expobj)
         {
-            return null; 
+            return null;
         }
 
         public List<Expenses> DeleteExpense(Expenses expobj)
         {
-           
+
             return null;
         }
 
