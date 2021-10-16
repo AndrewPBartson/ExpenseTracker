@@ -37,7 +37,7 @@ namespace ExpenseTracker
 
         private async void OnEditButtonClicked(object sender, EventArgs e) 
         { 
-        await Navigation.PushModalAsync(new AddExpensePage());
+            await Navigation.PushModalAsync(new AddExpensePage());
         }
 
         private void OnSaveButtonClicked(object sender, EventArgs e)
@@ -59,14 +59,11 @@ namespace ExpenseTracker
 
         }
 
-        private void OnViewExpensesButtonClicked(object sender, EventArgs e)
+        private async void OnViewExpensesButtonClicked(object sender, EventArgs e)
         {
          
-            string w = "!!!!";
-
-
-             await Navigation.PushModalAsync(new ExpensesPage { BindingContext = new Expenses() });
-            //await Navigation.PopModalAsync(new ExpensesPage());
+            await Navigation.PushModalAsync(new ExpensesPage { BindingContext = new Expenses() });
+           
             return;
         }
     }

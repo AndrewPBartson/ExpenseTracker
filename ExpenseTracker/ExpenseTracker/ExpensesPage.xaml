@@ -6,13 +6,22 @@
              >
     
     <ContentPage.ToolbarItems >
-        <ToolbarItem Text="+" Clicked="AddNewExpenses_Click" ></ToolbarItem>
-        <ToolbarItem Text="Budget Summary" Clicked="ShowMonthlyBudgetSummary_Click" ></ToolbarItem>
+        <ToolbarItem Text="+" Clicked="AddNewExpenses_Click" Priority="0" Order="Primary"  ></ToolbarItem>
+        <ToolbarItem Text="Budget Summary" Clicked="ShowMonthlyBudgetSummary_Click" Priority="1" Order="Primary"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <StackLayout>
-
-        <Button Text="Add" Clicked="AddNewExpenses_Click"/>
-       
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+             </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+        <Button Text="Add" Clicked="AddNewExpenses_Click" Grid.Column="0" Grid.Row="0"/>
+            <Button Text="Budget Summary" Clicked="ShowMonthlyBudgetSummary_Click" Grid.Column="1" Grid.Row="0"/>
+        </Grid>
         <ListView x:Name="ExpensesListView"
                    Margin="20"
                    ItemSelected="ExpensesListView_ItemSelected">

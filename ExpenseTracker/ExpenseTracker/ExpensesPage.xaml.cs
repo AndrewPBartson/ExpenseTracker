@@ -35,7 +35,7 @@ namespace ExpenseTracker
             decimal AmonthTOGoal= CurrentData.AmountToGoal();
            
             AmountLabel.Text = " Summery " + Convert.ToString(CurrentMonthCost);
-          //  RemainedLable.Text = "Your Remained Amount" + Convert.ToString(AmonthTOGoal);
+            RemainedLable.Text = "Your Remained Amount   " + Convert.ToString(AmonthTOGoal);
 
 
             

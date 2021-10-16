@@ -13,18 +13,24 @@ namespace ExpenseTracker.Model
 
         public List<Expenses> ExpenseList_CurrentMonth()
         {
-           
+            Costants.CurretMonth = DateTime.Today;
+
+
+
             List<Expenses> CurrentMonthExpense = new List<Expenses>();
             List<Budget> Budgets = new List<Budget>();
             
-            //User CurrentListdata = UserManager.GetLoggedInUser;
-            Budgets = UserManager.GetLoggedInUser.Budgets;
+            User CurrentListdata = UserManager.GetLoggedInUser();
+            Budgets = CurrentListdata.Budgets;
           
             var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate == Costants.CurretMonth);
-            CurrentMonthExpense = Budget.Expenses;
+            if (Budget != null)
+            {
+                CurrentMonthExpense = Budget.ListOfExpenses;
+            }
+                return (CurrentMonthExpense);
             
-            return (CurrentMonthExpense);
-
+            
         }
 
         public decimal Calculate_MonthlyCost()
@@ -34,11 +40,11 @@ namespace ExpenseTracker.Model
 
             decimal  monthlyCost= 0.0m;
 
-            foreach( var a in CurrentMonthExpense)
+            foreach( var Expense in CurrentMonthExpense)
             {
-                if (a != null)
+                if (Expense != null)
                 {
-                    monthlyCost = monthlyCost + a.ExpenseAmount;
+                    monthlyCost = monthlyCost + Expense.ExpenseAmount;
                 }
                }
             return monthlyCost;
@@ -50,10 +56,10 @@ namespace ExpenseTracker.Model
             List<Expenses> CurrentMonthExpense = new List<Expenses>();
             List<Budget> Budgets = new List<Budget>();
 
-            //User CurrentListdata = Load_Data();
+            User CurrentListdata = UserManager.GetLoggedInUser();
             //Budgets = CurrentListdata.Budgets;
 
-            Budgets = UserManager.GetLoggedInUser.Budgets;
+            Budgets = CurrentListdata.Budgets;
             var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate == Costants.CurretMonth);
 
             if (Budget != null)
