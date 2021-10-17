@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Linq;
 using System.Text.Json;
 
 namespace ExpenseTracker.Model
@@ -30,6 +31,21 @@ namespace ExpenseTracker.Model
         public static User GetLoggedInUser()
         {
             return LoggedInUser;
+        }
+
+
+        public static bool IsCurrentMonthBudgetSet()
+        {
+            if (LoggedInUser != null)
+            {
+                var budget = LoggedInUser.Budgets.Where(x => x.BudgetDate.Month == DateTime.Today.Month && x.BudgetDate.Year == DateTime.Today.Year).FirstOrDefault();
+                if (budget != null && budget.BudgetGoalAmount > 0)
+                {
+                    return true;
+                }                
+            }
+            return false;
+
         }
 
         public static User CreatenewUser(string username, string password)
