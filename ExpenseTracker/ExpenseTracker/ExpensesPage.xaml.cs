@@ -25,8 +25,7 @@ namespace ExpenseTracker
 
             List<Expenses> ExpenseList = new List<Expenses>();
             FileManagement CurrentData = new FileManagement();
-
-           
+                        
             ExpenseList = CurrentData.ExpenseList_CurrentMonth();
 
 

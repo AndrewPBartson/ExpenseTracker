@@ -119,6 +119,9 @@
                 <Button x:Name ="AddSaveButton"
                         Text="Add"
                         Clicked="OnAddButtonClicked" />
+                <Button x:Name="UpdateButton" IsVisible="False"
+                        Text="Update"
+                        Clicked="OnUpdateButtonClicked"/>
                 <Button Text="Cancel"
                         Clicked="OnCancelButtonClicked" 
                         Grid.Column="1"/>

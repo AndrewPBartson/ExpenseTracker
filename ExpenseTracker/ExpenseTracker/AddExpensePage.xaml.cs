@@ -1,11 +1,5 @@
 ﻿using ExpenseTracker.Model;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Text.Json;
@@ -27,11 +21,6 @@ namespace ExpenseTracker
         public DateTime date;
         public Category category;
 
-        //Initializing on expense object -- Need to delete when integration is completed!
-       // Expenses expense = new Expenses("Cycle", 256, DateTime.Now.AddDays(-7), Category.Shopping);
-        
-
-
         protected override void OnAppearing()
         {
             var expense = (Expenses)BindingContext;
@@ -43,15 +32,21 @@ namespace ExpenseTracker
                 ExpenseDate.Date = expense.ExpenseDate;
                 ExpenseCategory.Text = $"Category: {expense.ExpenseCategory.ToString()}";
                 SetCategoryIcon(expense.ExpenseCategory);
-                AddSaveButton.Text = "Update";
                 DeleteButton.IsVisible = true;
+                UpdateButton.IsVisible = true;
+                AddSaveButton.IsVisible = false;
             }
         }
 
         private async void OnAddButtonClicked(object sender, EventArgs e)
         {
+            bool isBudgetAvailable = false;
             name = ExpenseName.Text;
             amount = Convert.ToDecimal(ExpenseAmount.Text);
+            if (date == DateTime.MinValue)
+            {
+                date = DateTime.Now;
+            }
 
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(ExpenseAmount.Text) && !string.IsNullOrWhiteSpace(category.ToString()))
             {
@@ -62,7 +57,20 @@ namespace ExpenseTracker
                         Expenses newExpense = new Expenses(name, amount, date, category);
                         newExpense.ExpenseId = budget.getNextId(budget.ListOfExpenses);
                         budget.AddExpense(newExpense);
+                        isBudgetAvailable = true;
+                        break;
                     }
+                }   
+
+                if (isBudgetAvailable == false)
+                {                    
+                    Expenses newExpense = new Expenses(name, amount, date, category);
+                    Budget newBudget = new Budget();
+                    newExpense.ExpenseId = newBudget.getNextId(newBudget.ListOfExpenses);
+                    newBudget.BudgetGoalAmount = 0; //or the default value
+                    newBudget.BudgetDate = date;
+                    newBudget.AddExpense(newExpense);
+                    currentUser.Budgets.Add(newBudget);
                 }
                 UserManager.SaveLoggedInUserData();               
                 await Navigation.PopModalAsync();
@@ -73,22 +81,52 @@ namespace ExpenseTracker
             }
         }
 
+        private async void OnUpdateButtonClicked(object sender, EventArgs e)
+        {
+            //Happy Path
+            var expense = (Expenses)BindingContext;
+
+            if (!string.IsNullOrWhiteSpace(ExpenseName.Text) && !string.IsNullOrWhiteSpace(ExpenseAmount.Text) && !string.IsNullOrWhiteSpace(ExpenseCategory.Text.ToString()))
+            {
+                foreach (Budget budget in currentUser.Budgets)
+                {
+                    if (budget.BudgetDate.Month == expense.ExpenseDate.Month)
+                    {
+                        foreach (Expenses exp in budget.ListOfExpenses)
+                        {
+                            if (exp.ExpenseId == expense.ExpenseId)
+                            {
+                                exp.Description = ExpenseName.Text;
+                                exp.ExpenseAmount = Convert.ToDecimal(ExpenseAmount.Text);
+                                exp.ExpenseCategory = category;
+                                exp.ExpenseDate = date;
+                            }
+                        }
+                        var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
+                        FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
+                        await Navigation.PopModalAsync();
+                    }
+                }
+            }
+        }
         private async void OnCancelButtonClicked(object sender, EventArgs e)
         {
             await Navigation.PopModalAsync();
         }
-        private void OnDeleteButtonClicked(object sender, EventArgs e)
+
+        private async void OnDeleteButtonClicked(object sender, EventArgs e)
         {
-            //expense.ExpenseId = 1;
-            //foreach (Budget budget in currentUser.Budgets)
-            //{
-            //    if (budget.BudgetDate.Month == expense.ExpenseDate.Month)
-            //    {
-            //        budget.ListOfExpenses.RemoveAll(x => x.ExpenseId == expense.ExpenseId);
-            //        DisplayAlert("Success", "Your expense has been deleted!", "OK");
-            //    }
-                
-            //}
+            var expense = (Expenses)BindingContext;
+            foreach (Budget budget in currentUser.Budgets)
+            {
+                if (budget.BudgetDate.Month == expense.ExpenseDate.Month)
+                {
+                    budget.ListOfExpenses.RemoveAll(x => x.ExpenseId == expense.ExpenseId);
+                    var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
+                    FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
+                    await Navigation.PopModalAsync();
+                }
+            }
         }
 
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
@@ -153,11 +191,12 @@ namespace ExpenseTracker
             GiftIcon.BackgroundColor = Color.LightGray;
         }
 
-        private void SetCategoryIcon(Category category)
+        private void SetCategoryIcon(Category selectedCategory)
         {
-            ExpenseCategory.Text = $"Category: {category}";
+            category = selectedCategory;
+            ExpenseCategory.Text = $"Category: {selectedCategory}";
             DisableAllIcons();
-            switch (category)
+            switch (selectedCategory)
                 {
                 case Category.Home:
                     HomeIcon.BackgroundColor = Color.Aqua;
@@ -184,9 +223,8 @@ namespace ExpenseTracker
                     GiftIcon.BackgroundColor = Color.Aqua;
                     break;
                 }
-                
         }
 
+        
     }
-    
 }
