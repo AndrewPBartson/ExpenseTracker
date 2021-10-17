@@ -64,8 +64,7 @@ namespace ExpenseTracker
                         budget.AddExpense(newExpense);
                     }
                 }
-                var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
-                FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString );
+                UserManager.SaveLoggedInUserData();               
                 await Navigation.PopModalAsync();
             }
             else
