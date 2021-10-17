@@ -22,23 +22,20 @@ namespace ExpenseTracker
         protected override void OnAppearing()
         {
             User currentUser = UserManager.GetLoggedInUser();
-            // if user has a Budget
             if (currentUser.Budgets.Count != 0)     
             {
                 BudgetInput.Text = currentUser.Budgets[0].BudgetGoalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                BudgetStatusReport.Text = $"You have spent $XXXX from your monthly goal of: $ {BudgetInput.Text}";
+                //   - Show "Edit" button
+                //   - Show "Continue" button
+                //   - After user clicks "Edit", rename "Continue" to "Save"
             }
-            //   - Format budget amount in local currency
-            //   - Show "Edit" button
-            //   - Show "Continue" button
-            //   - After user clicks "Edit", "Continue" button 
-            //     should be renamed "Save"
-
-            // if there is NOT a value for budget
-            //   - Disable "Edit" button
-            //   - Disable "Save" button until user enters some amount
-
+            else // if there is NOT a value for budget
+            {
+                //   - Disable "Edit" button
+                //   - Disable "Save" button until user enters some amount
+            }
         }
-
 
         private async void OnEditButtonClicked(object sender, EventArgs e) 
         { 
@@ -58,14 +55,11 @@ namespace ExpenseTracker
 
             UserManager.SaveLoggedInUserData();
             await Navigation.PushModalAsync(new AddExpensePage());
-
         }
 
         private async void OnViewExpensesButtonClicked(object sender, EventArgs e)
         {
-         
-            await Navigation.PushModalAsync(new ExpensesPage { BindingContext = new Expenses() });
-           
+            await Navigation.PushModalAsync(new ExpensesPage { BindingContext = new Expenses() });  
             return;
         }
     }

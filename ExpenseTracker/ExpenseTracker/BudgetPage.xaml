@@ -20,7 +20,8 @@
                 <Label Margin="14,10,10,0"
                        Text="Budget Goal:" FontSize="20" 
                        Grid.Row="1" />
-                <Editor x:Name="BudgetInput" Margin="10,0,10,0" 
+                <Editor x:Name="BudgetInput" Keyboard="Numeric"
+                        Margin="10,0,10,0"
                         Placeholder="Enter your budget for this month"
                         Grid.Row="2"/>
                 <Grid  Margin="10,0,10,0"
@@ -43,8 +44,8 @@
                     </Grid.ColumnDefinitions>
                     <Label Margin="14,25,10,0"
                        Text="Month-to-Date:" FontSize="20" />
-                    <Label Margin="10,25,10,0"
-                           Text="You have spend $XXXX from your monthly goal of $XXXX." 
+                    <Label x:Name="BudgetStatusReport" Margin="10,25,10,0"
+                           Text=""
                            FontSize="17"
                            Grid.Column="1" />
                 </Grid>

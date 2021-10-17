@@ -35,7 +35,7 @@ namespace ExpenseTracker
         protected override void OnAppearing()
         {
             var expense = (Expenses)BindingContext;
-            if (!string.IsNullOrEmpty(expense.Description))
+            if (expense is object && !string.IsNullOrEmpty(expense.Description))
             {
                 ExpenseLabel.Text = "Update Expense";
                 ExpenseName.Text = expense.Description;
