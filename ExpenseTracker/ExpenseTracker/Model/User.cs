@@ -4,22 +4,49 @@ using System.Text;
 
 namespace ExpenseTracker.Model
 {
-    public class User
+    public class User : BaseEntity
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public List<Budget> Budgets { get; set; }
+        private string username;
+        private string password;
+        private List<Budget> budgets;
 
-        public User ()
-        { }
-
-        public User(string username)
+        public string UserName
         {
-            UserName = username;
-            Password = "ABC123";
-            Budgets = new List<Budget>();
+            get { return this.username; }
+            set
+            {
+                if (value != this.username)
+                {
+                    this.username = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string Password
+        {
+            get { return this.password; }
+            set
+            {
+                if (value != this.password)
+                {
+                    this.password = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public List<Budget> Budgets
+        {
+            get { return this.budgets; }
+            set
+            {
+                if (value != this.budgets)
+                {
+                    this.budgets = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
     }
-
-  
 }

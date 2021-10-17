@@ -24,7 +24,7 @@ namespace ExpenseTracker
         protected override void OnAppearing()
         {
             var expense = (Expenses)BindingContext;
-            if (!string.IsNullOrEmpty(expense.Description))
+            if (expense is object && !string.IsNullOrEmpty(expense.Description))
             {
                 ExpenseLabel.Text = "Update Expense";
                 ExpenseName.Text = expense.Description;
@@ -72,8 +72,7 @@ namespace ExpenseTracker
                     newBudget.AddExpense(newExpense);
                     currentUser.Budgets.Add(newBudget);
                 }
-                var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
-                FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString );
+                UserManager.SaveLoggedInUserData();               
                 await Navigation.PopModalAsync();
             }
             else

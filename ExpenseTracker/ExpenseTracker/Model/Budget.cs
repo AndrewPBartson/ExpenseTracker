@@ -4,13 +4,51 @@ using System.Linq;
 
 namespace ExpenseTracker.Model
 {
-    public class Budget
+    public class Budget : BaseEntity
     {
-        public decimal BudgetGoalAmount { get; set; }
-        public List<Expenses> ListOfExpenses { get; set; }
-        public DateTime BudgetDate { get; set; }
+        private decimal budgetgoalamount;
+        private List<Expenses> listofexpenses;
+        private DateTime budgetdate;
 
-        // Buget should allow you to Add expense, Edit Expense and Delete Expense
+        public decimal BudgetGoalAmount
+        {
+            get { return this.budgetgoalamount; }
+            set
+            {
+                if (value != this.budgetgoalamount)
+                {
+                    this.budgetgoalamount = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public List<Expenses> ListOfExpenses
+        {
+            get { return this.listofexpenses; }
+            set
+            {
+                if (value != this.listofexpenses)
+                {
+                    this.listofexpenses = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public DateTime BudgetDate
+        {
+            get { return this.budgetdate; }
+            set
+            {
+                if (value != this.budgetdate)
+                {
+                    this.budgetdate = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
 
         public Budget()
         {
