@@ -19,8 +19,9 @@ namespace ExpenseTracker.Model
 
             List<Expenses> CurrentMonthExpense = new List<Expenses>();
             List<Budget> Budgets = new List<Budget>();
-            
+
             User CurrentListdata = UserManager.GetLoggedInUser();
+            //User CurrentListdata = JsonSerializer.Deserialize<User>(FileManager.ReadFileData(UserManager.GetLoggedInUser().UserName));
             Budgets = CurrentListdata.Budgets;
           
             var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month == Costants.CurretMonth.Month);

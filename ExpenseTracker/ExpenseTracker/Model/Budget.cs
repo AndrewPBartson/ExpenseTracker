@@ -31,10 +31,11 @@ namespace ExpenseTracker.Model
             return ListOfExpenses;
         }
 
-        public List<Expenses> EditExpense(Expenses expense)
-        {
-            return null;
-        }
+        //public List<Expenses> EditExpense(Expenses expense, Expenses newExpense)
+        //{
+        //    expense.Name = expense>text;   
+        //    return null;
+        //}
 
         public List<Expenses> DeleteExpense(Expenses expense)
         {
