@@ -27,12 +27,12 @@ namespace ExpenseTracker
                 var Loginobj = UserManager.Login(UsernameEntry.Text, PasswordEntry.Text);
                 if (Loginobj != null)
                 {
-                    if(UserManager.IsCurrentMonthBudgetSet())
+                    if (UserManager.IsCurrentMonthBudgetSet())
                     {
                         await Navigation.PushModalAsync(new ExpensesPage());
                         return;
                     }
-                    
+
                     await Navigation.PushModalAsync(new BudgetPage());
                     return;
                 }
