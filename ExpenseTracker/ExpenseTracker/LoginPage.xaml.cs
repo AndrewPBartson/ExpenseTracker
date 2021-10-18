@@ -45,6 +45,12 @@ namespace ExpenseTracker
         {
             if (!string.IsNullOrWhiteSpace(UsernameEntry.Text) && !string.IsNullOrWhiteSpace(PasswordEntry.Text))
             {
+                var checkuser = FileManager.ReadFileData(UsernameEntry.Text);
+                if(!string.IsNullOrEmpty(checkuser))
+                {
+                    await DisplayAlert("Validation error", "Username already exists, please choose a different username.", "Ok");
+                    return;
+                }
                 var Loginobj = UserManager.CreatenewUser(UsernameEntry.Text, PasswordEntry.Text);
                 if (Loginobj != null)
                 {
