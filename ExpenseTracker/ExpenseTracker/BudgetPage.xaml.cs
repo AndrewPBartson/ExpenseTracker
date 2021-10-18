@@ -19,13 +19,18 @@ namespace ExpenseTracker
             InitializeComponent();
         }
 
+        public Budget currentBudget;
+
+        private string budgetMonth;
+        private string budgetYear;
+
         protected override void OnAppearing()
         {
             User currentUser = UserManager.GetLoggedInUser();
             if (currentUser.Budgets.Count != 0)     
             {
                 BudgetInput.Text = currentUser.Budgets[0].BudgetGoalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                BudgetStatusReport.Text = $"You have spent $XXXX from your monthly goal of: $ {BudgetInput.Text}";
+                BudgetStatusReport.Text = $"You have spent \n$ {BudgetInput.Text} from your monthly goal of \n$ {BudgetInput.Text}";
                 //   - Show "Edit" button
                 //   - Show "Continue" button
                 //   - After user clicks "Edit", rename "Continue" to "Save"
@@ -44,10 +49,12 @@ namespace ExpenseTracker
 
         private async void OnSaveButtonClicked(object sender, EventArgs e)
         {
-            Budget currentBudget = new Budget();
+            currentBudget = new Budget();
             currentBudget.BudgetGoalAmount = decimal.Parse(BudgetInput.Text);
             currentBudget.BudgetDate = DateTime.Now;
             currentBudget.ListOfExpenses = new List<Expenses>();
+            currentBudget.BudgetMonth = budgetMonth;
+            currentBudget.BudgetYear = budgetYear;
 
             User currentUser = new User();
             currentUser = UserManager.GetLoggedInUser();
@@ -61,6 +68,26 @@ namespace ExpenseTracker
         {
             await Navigation.PushModalAsync(new ExpensesPage { BindingContext = new Expenses() });  
             return;
+        }
+        public void OnMonthChosen(object sender, EventArgs e)
+        {
+            var picker = (Picker)sender;
+            int selectedIndex = picker.SelectedIndex;
+
+            if (selectedIndex != -1)
+            {
+                budgetMonth = (string)picker.ItemsSource[selectedIndex];
+            }
+        }
+        public void OnYearChosen(object sender, EventArgs e)
+        {
+            var picker = (Picker)sender;
+            int selectedIndex = picker.SelectedIndex;
+
+            if (selectedIndex != -1)
+            {
+                budgetYear = (string)picker.ItemsSource[selectedIndex];
+            }
         }
     }
 }
