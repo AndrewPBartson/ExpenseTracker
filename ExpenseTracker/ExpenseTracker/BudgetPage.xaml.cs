@@ -30,7 +30,8 @@ namespace ExpenseTracker
             if (currentUser.Budgets.Count != 0)     
             {
                 BudgetInput.Text = currentUser.Budgets[0].BudgetGoalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                BudgetStatusReport.Text = $"You have spent \n$ {BudgetInput.Text} from your monthly goal of \n$ {BudgetInput.Text}";
+                //BudgetStatusReport.Text = $"You have spent \n$ {BudgetInput.Text} from your monthly goal of \n$ {BudgetInput.Text}";
+                BudgetStatusReport.Text = $"Spent ${BudgetInput.Text} of ${BudgetInput.Text}";
                 //   - Show "Edit" button
                 //   - Show "Continue" button
                 //   - After user clicks "Edit", rename "Continue" to "Save"
@@ -44,7 +45,7 @@ namespace ExpenseTracker
 
         private async void OnEditButtonClicked(object sender, EventArgs e) 
         { 
-            await Navigation.PushModalAsync(new AddExpensePage());
+            await Navigation.PushModalAsync(new ExpensesPage());
         }
 
         private async void OnSaveButtonClicked(object sender, EventArgs e)
@@ -61,7 +62,7 @@ namespace ExpenseTracker
             currentUser.Budgets.Add(currentBudget);
 
             UserManager.SaveLoggedInUserData();
-            await Navigation.PushModalAsync(new ExpensesPage { BindingContext = new Expenses() });
+            await Navigation.PushModalAsync(new ExpensesPage());
         }
 
         private async void OnViewExpensesButtonClicked(object sender, EventArgs e)

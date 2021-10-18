@@ -43,8 +43,8 @@
                     
             </Grid.RowDefinitions>
         </Grid>
-        <Label x:Name="AmountLabel" Text="Summary" FontSize="Medium"  />
-        <Label x:Name="RemainedLable" Text="Your Remained Amount" FontSize="Medium" />
+        <Label x:Name="AmountLabel" Text="Summary" FontSize="Medium" TextColor="Red" />
+        <Label x:Name="RemainedLable" Text="Your Remained Amount" FontSize="Medium"  TextColor="Green"/>
 
     </StackLayout>
    

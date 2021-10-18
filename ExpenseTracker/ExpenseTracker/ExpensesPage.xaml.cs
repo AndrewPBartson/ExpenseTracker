@@ -30,14 +30,10 @@ namespace ExpenseTracker
            
             
             ExpenseList = CurrentData.ExpenseList_CurrentMonth();
-
             
+            ExpensesListView.ItemsSource = null;
             ExpensesListView.ItemsSource = ExpenseList;
-
-           
-
-
-
+            
             decimal CurrentMonthCost = CurrentData.Calculate_MonthlyCost();
             decimal AmonthTOGoal= CurrentData.AmountToGoal();
            

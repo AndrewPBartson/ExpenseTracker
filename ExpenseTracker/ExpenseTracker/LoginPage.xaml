@@ -4,19 +4,28 @@
              x:Class="ExpenseTracker.LoginPage">
     <ContentPage.Content>
         <StackLayout>
+            <Label Text="&#xf4c0;" FontFamily="{StaticResource FontAwesomeSolid}" TextColor="YellowGreen" 
+                   FontSize="100" HorizontalTextAlignment="Center" Margin="20,80,20,0"/>
+            <Label Text="Every dollar counts" Margin="30,0,30,30" HorizontalTextAlignment="Center"
+                   FontSize="21" TextColor="DarkGreen" FontAttributes="Bold,Italic"/>
             <Entry x:Name="UsernameEntry" Placeholder="Username" />
             <Entry x:Name="PasswordEntry" IsPassword="True" Placeholder="Password"/>
-            <Grid>
+            <Grid Margin="0,30,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions> 
 
                 <Button Text="Sign In"
-                        Clicked="SignInButtonClicked" />
-                <Button Text="Sign Up"
+                        Clicked="SignInButtonClicked" 
+                        BackgroundColor="YellowGreen" 
+                        FontSize="15"
+                        FontAttributes="Bold"/>
+                <Button Text="Sign Up" 
                         Clicked="SignUpButtonClicked"
-                        Grid.Column="1"/>
+                        Grid.Column="1" 
+                        BackgroundColor="YellowGreen" 
+                        FontAttributes="Bold"/>
             </Grid>
         </StackLayout>
     </ContentPage.Content>
