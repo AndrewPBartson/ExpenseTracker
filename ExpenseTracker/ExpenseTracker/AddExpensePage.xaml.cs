@@ -16,10 +16,10 @@ namespace ExpenseTracker
         }
 
         private User currentUser = UserManager.GetLoggedInUser();
-        public string name;
-        public decimal amount;
-        public DateTime date;
-        public Category category;
+        private string name;
+        private decimal amount;
+        private DateTime date;
+        private Category category;
 
         protected override void OnAppearing()
         {
@@ -30,7 +30,7 @@ namespace ExpenseTracker
                 ExpenseName.Text = expense.Description;
                 ExpenseAmount.Text = expense.ExpenseAmount.ToString();
                 ExpenseDate.Date = expense.ExpenseDate;
-                ExpenseCategory.Text = $"Category: {expense.ExpenseCategory.ToString()}";
+                ExpenseCategory.Text = $"Category: {expense.ExpenseCategory}";
                 SetCategoryIcon(expense.ExpenseCategory);
                 DeleteButton.IsVisible = true;
                 UpdateButton.IsVisible = true;
@@ -40,88 +40,96 @@ namespace ExpenseTracker
 
         private async void OnAddButtonClicked(object sender, EventArgs e)
         {
-            bool isBudgetAvailable = false;
-            name = ExpenseName.Text;
-            amount = Convert.ToDecimal(ExpenseAmount.Text);
-            if (date == DateTime.MinValue)
-            {
-                date = DateTime.Now;
-            }
+            validateNewExpenseData();
+            Budget matchingBudget = getMatchingBudget(date);
+            AddExpenseInBudget(matchingBudget);
 
-            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(ExpenseAmount.Text) && !string.IsNullOrWhiteSpace(category.ToString()))
-            {
-                foreach (Budget budget in currentUser.Budgets)
-                {
-                    if (budget.BudgetDate.Month == date.Month)
-                    {
-                        Expenses newExpense = new Expenses(name, amount, date, category);
-                        newExpense.ExpenseId = budget.getNextId(budget.ListOfExpenses);
-                        budget.AddExpense(newExpense);
-                        isBudgetAvailable = true;
-                        break;
-                    }
-                }   
-
-                if (isBudgetAvailable == false)
-                {                    
-                    Expenses newExpense = new Expenses(name, amount, date, category);
-                    Budget newBudget = new Budget();
-                    newExpense.ExpenseId = newBudget.getNextId(newBudget.ListOfExpenses);
-                    newBudget.BudgetGoalAmount = 0; //or the default value
-                    newBudget.BudgetDate = date;
-                    newBudget.AddExpense(newExpense);
-                    currentUser.Budgets.Add(newBudget);
-                }
-                UserManager.SaveLoggedInUserData();               
-                await Navigation.PopModalAsync();
-            }
-            else
-            {
-               await DisplayAlert("Alert", "One or more required fields are empty. Please try again.", "OK");
-            }
+            var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
+            FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
+            await Navigation.PopModalAsync();
         }
 
         private async void OnUpdateButtonClicked(object sender, EventArgs e)
         {
-            //Happy Path
             var expense = (Expenses)BindingContext;
-
-            if (!string.IsNullOrWhiteSpace(ExpenseName.Text) && !string.IsNullOrWhiteSpace(ExpenseAmount.Text) && !string.IsNullOrWhiteSpace(ExpenseCategory.Text.ToString()))
-            {
-                foreach (Budget budget in currentUser.Budgets)
-                {
-                    if (budget.BudgetDate.Month == expense.ExpenseDate.Month)
-                    {
-                        foreach (Expenses exp in budget.ListOfExpenses)
-                        {
-                            if (exp.ExpenseId == expense.ExpenseId)
-                            {
-                                exp.Description = ExpenseName.Text;
-                                exp.ExpenseAmount = Convert.ToDecimal(ExpenseAmount.Text);
-                                exp.ExpenseCategory = category;
-                                exp.ExpenseDate = date;
-                            }
-                        }
-                        var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
-                        FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
-                        await Navigation.PopModalAsync();
-                    }
-                }
-            }
+            validateNewExpenseData();
+            Budget matchingBudget = getMatchingBudget(date);
+            AddExpenseInBudget(matchingBudget);
+            deleteExpense(expense.ExpenseDate, expense.ExpenseId);
+            
+            var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
+            FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
+            await Navigation.PopModalAsync();
         }
+
+        private void OnDeleteButtonClicked(object sender, EventArgs e)
+        {
+            var expense = (Expenses)BindingContext;
+            deleteExpense(expense.ExpenseDate, expense.ExpenseId);
+        }
+
         private async void OnCancelButtonClicked(object sender, EventArgs e)
         {
             await Navigation.PopModalAsync();
         }
 
-        private async void OnDeleteButtonClicked(object sender, EventArgs e)
+        private void validateNewExpenseData()
         {
-            var expense = (Expenses)BindingContext;
+            if (string.IsNullOrWhiteSpace(ExpenseName.Text)
+                || string.IsNullOrWhiteSpace(ExpenseAmount.Text)
+                || string.IsNullOrWhiteSpace(category.ToString()))
+            {
+                DisplayAlert("Alert", "One or more required fields are empty. Please try again.", "OK");
+            }
+            else
+            {
+                name = ExpenseName.Text;
+                amount = Convert.ToDecimal(ExpenseAmount.Text);
+            }
+
+            if (date == DateTime.MinValue)
+            {
+                date = DateTime.Now;
+            }
+        }
+        private Budget getMatchingBudget(DateTime date)
+        {
+            bool isBudgetAvailable = false;
+            Budget targetBudget = new Budget();
+
             foreach (Budget budget in currentUser.Budgets)
             {
-                if (budget.BudgetDate.Month == expense.ExpenseDate.Month)
+                if (budget.BudgetDate.Month == date.Month)
                 {
-                    budget.ListOfExpenses.RemoveAll(x => x.ExpenseId == expense.ExpenseId);
+                    isBudgetAvailable = true;
+                    targetBudget = budget;
+                    break;
+                }
+            }
+
+            if (isBudgetAvailable == false)
+            {
+                targetBudget.BudgetGoalAmount = 0; 
+                targetBudget.BudgetDate = date;
+                currentUser.Budgets.Add(targetBudget);
+            }
+
+            return targetBudget;
+        }
+        private void AddExpenseInBudget(Budget budget)
+        {
+            Expenses newExpense = new Expenses(name, amount, date, category);
+            newExpense.ExpenseId = budget.getNextId(budget.ListOfExpenses);
+            budget.AddExpense(newExpense);
+        }
+
+        public async void deleteExpense(DateTime budgetDate, int expId)
+        {
+            foreach (Budget budget in currentUser.Budgets)
+            {
+                if (budget.BudgetDate.Month == budgetDate.Month)
+                {
+                    budget.ListOfExpenses.RemoveAll(x => x.ExpenseId == expId);
                     var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
                     FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
                     await Navigation.PopModalAsync();
@@ -224,7 +232,5 @@ namespace ExpenseTracker
                     break;
                 }
         }
-
-        
     }
 }
