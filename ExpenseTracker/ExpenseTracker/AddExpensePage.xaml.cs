@@ -38,38 +38,29 @@ namespace ExpenseTracker
             }
         }
 
-        private async void OnAddButtonClicked(object sender, EventArgs e)
+        private void OnAddButtonClicked(object sender, EventArgs e)
         {
             validateNewExpenseData();
-            Budget matchingBudget = getMatchingBudget(date);
+            Budget matchingBudget = Budget.getMatchingBudget(date, currentUser);
             AddExpenseInBudget(matchingBudget);
-
-            var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
-            FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
-            await Navigation.PopModalAsync();
+            SaveDataToFile(currentUser);
         }
 
-        private async void OnUpdateButtonClicked(object sender, EventArgs e)
+        private void OnUpdateButtonClicked(object sender, EventArgs e)
         {
             var expense = (Expenses)BindingContext;
             validateNewExpenseData();
-            Budget matchingBudget = getMatchingBudget(date);
+            Budget matchingBudget = Budget.getMatchingBudget(date, currentUser);
             AddExpenseInBudget(matchingBudget);
             deleteExpense(expense.ExpenseDate, expense.ExpenseId);
-            
-            var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
-            FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
-            await Navigation.PopModalAsync();
+            SaveDataToFile(currentUser);
         }
 
-        private async void OnDeleteButtonClicked(object sender, EventArgs e)
+        private void OnDeleteButtonClicked(object sender, EventArgs e)
         {
             var expense = (Expenses)BindingContext;
             deleteExpense(expense.ExpenseDate, expense.ExpenseId);
-
-            var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
-            FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
-            await Navigation.PopModalAsync();
+            SaveDataToFile(currentUser);
         }
 
         private async void OnCancelButtonClicked(object sender, EventArgs e)
@@ -96,30 +87,7 @@ namespace ExpenseTracker
                 date = DateTime.Now;
             }
         }
-        private Budget getMatchingBudget(DateTime date)
-        {
-            bool isBudgetAvailable = false;
-            Budget targetBudget = new Budget();
-
-            foreach (Budget budget in currentUser.Budgets)
-            {
-                if (budget.BudgetDate.Month == date.Month)
-                {
-                    isBudgetAvailable = true;
-                    targetBudget = budget;
-                    break;
-                }
-            }
-
-            if (isBudgetAvailable == false)
-            {
-                targetBudget.BudgetGoalAmount = 0; 
-                targetBudget.BudgetDate = date;
-                currentUser.Budgets.Add(targetBudget);
-            }
-
-            return targetBudget;
-        }
+        
         private void AddExpenseInBudget(Budget budget)
         {
             Expenses newExpense = new Expenses(name, amount, date, category);
@@ -137,6 +105,13 @@ namespace ExpenseTracker
                     break;
                 }
             }
+        }
+
+        private async void SaveDataToFile(User currentUser)
+        {
+            var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
+            FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
+            await Navigation.PopModalAsync();
         }
 
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
@@ -189,18 +164,6 @@ namespace ExpenseTracker
             SetCategoryIcon(Category.Gift);
         }
 
-        private void DisableAllIcons()
-        {
-            HomeIcon.BackgroundColor = Color.LightGray;
-            ShoppingIcon.BackgroundColor = Color.LightGray;
-            TravelIcon.BackgroundColor = Color.LightGray;
-            FoodIcon.BackgroundColor = Color.LightGray;
-            EntertainmentIcon.BackgroundColor = Color.LightGray;
-            EducationIcon.BackgroundColor = Color.LightGray;
-            BillsIcon.BackgroundColor = Color.LightGray;
-            GiftIcon.BackgroundColor = Color.LightGray;
-        }
-
         private void SetCategoryIcon(Category selectedCategory)
         {
             category = selectedCategory;
@@ -233,6 +196,18 @@ namespace ExpenseTracker
                     GiftIcon.BackgroundColor = Color.Aqua;
                     break;
                 }
+        }
+        
+        private void DisableAllIcons()
+        {
+            HomeIcon.BackgroundColor = Color.LightGray;
+            ShoppingIcon.BackgroundColor = Color.LightGray;
+            TravelIcon.BackgroundColor = Color.LightGray;
+            FoodIcon.BackgroundColor = Color.LightGray;
+            EntertainmentIcon.BackgroundColor = Color.LightGray;
+            EducationIcon.BackgroundColor = Color.LightGray;
+            BillsIcon.BackgroundColor = Color.LightGray;
+            GiftIcon.BackgroundColor = Color.LightGray;
         }
     }
 }

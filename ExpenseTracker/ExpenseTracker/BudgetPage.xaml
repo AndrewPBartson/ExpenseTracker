@@ -98,7 +98,7 @@
                 </Grid>
 
                 <Label Margin="25,5,10,0"
-                       Text="Monthly Subtotals by Category:" FontSize="20"
+                       Text="This Month's Expense by Category:" FontSize="20"
                        Grid.Row="6"/>
                 <Grid Margin="20,10,10,0"
                       Grid.Row="7">

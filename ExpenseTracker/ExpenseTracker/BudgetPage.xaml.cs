@@ -20,6 +20,7 @@ namespace ExpenseTracker
         }
 
         public Budget currentBudget;
+        User currentUser = UserManager.GetLoggedInUser();
 
         private string budgetMonth;
         private string budgetYear;
@@ -41,6 +42,7 @@ namespace ExpenseTracker
                 //   - Disable "Edit" button
                 //   - Disable "Save" button until user enters some amount
             }
+            getSummaryData();
         }
 
         private async void OnEditButtonClicked(object sender, EventArgs e) 
@@ -89,6 +91,71 @@ namespace ExpenseTracker
             {
                 budgetYear = (string)picker.ItemsSource[selectedIndex];
             }
+        }
+
+        public void getSummaryData()
+        {
+            decimal totalHomeExpense = 0;
+            decimal totalShoppingExpense = 0;
+            decimal totalTravelExpense = 0;
+            decimal totalFoodExpense = 0;
+            decimal totalEntertainmentExpense = 0;
+            decimal totalEducationExpense = 0;
+            decimal totalBillsExpense = 0;
+            decimal totalGiftExpense = 0;
+                            
+            currentBudget = Budget.getMatchingBudget(DateTime.Now, currentUser);
+                        
+            foreach (Expenses expense in currentBudget.ListOfExpenses)
+            {
+                if (expense.ExpenseCategory == Category.Home)
+                {
+                    totalHomeExpense = totalHomeExpense + expense.ExpenseAmount;
+                }
+
+                if (expense.ExpenseCategory == Category.Shopping)
+                {
+                    totalShoppingExpense = totalShoppingExpense + expense.ExpenseAmount;
+                }
+                
+                if (expense.ExpenseCategory == Category.Travel)
+                {
+                    totalTravelExpense = totalTravelExpense + expense.ExpenseAmount;
+                }
+                
+                if (expense.ExpenseCategory == Category.Food)
+                {
+                    totalFoodExpense = totalFoodExpense + expense.ExpenseAmount;
+                }
+                
+                if (expense.ExpenseCategory == Category.Entertainment)
+                {
+                    totalEntertainmentExpense = totalEntertainmentExpense + expense.ExpenseAmount;
+                }
+                
+                if (expense.ExpenseCategory == Category.Education)
+                {
+                    totalEducationExpense = totalEducationExpense + expense.ExpenseAmount;
+                }
+                
+                if (expense.ExpenseCategory == Category.Bills)
+                {
+                    totalBillsExpense = totalBillsExpense + expense.ExpenseAmount;
+                }
+                
+                if (expense.ExpenseCategory == Category.Gift)
+                {
+                    totalGiftExpense = totalGiftExpense + expense.ExpenseAmount;
+                }
+            }
+            HomeTotal.Text = "$"+ totalHomeExpense.ToString();
+            ShoppingTotal.Text = "$"+ totalShoppingExpense.ToString();
+            TravelTotal.Text = "$"+ totalTravelExpense.ToString();
+            FoodTotal.Text = "$"+ totalFoodExpense.ToString();
+            EntertainmentTotal.Text = "$"+ totalEntertainmentExpense.ToString();
+            EducationTotal.Text = "$"+ totalEducationExpense.ToString();
+            BillsTotal.Text = "$"+ totalBillsExpense.ToString();
+            GiftTotal.Text = "$"+ totalGiftExpense.ToString();
         }
     }
 }
