@@ -124,9 +124,10 @@ namespace ExpenseTracker
                     budget.ListOfExpenses.RemoveAll(x => x.ExpenseId == expense.ExpenseId);
                     var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
                     FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
-                    await Navigation.PopModalAsync();
+                    
                 }
             }
+            await Navigation.PopModalAsync();
         }
 
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)

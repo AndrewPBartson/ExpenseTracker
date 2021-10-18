@@ -22,14 +22,22 @@ namespace ExpenseTracker
         {
 
 
+            ExpensesListView.ItemsSource = null ;
 
             List<Expenses> ExpenseList = new List<Expenses>();
             FileManagement CurrentData = new FileManagement();
                         
+           
+            
             ExpenseList = CurrentData.ExpenseList_CurrentMonth();
 
-
+            
             ExpensesListView.ItemsSource = ExpenseList;
+
+           
+
+
+
             decimal CurrentMonthCost = CurrentData.Calculate_MonthlyCost();
             decimal AmonthTOGoal= CurrentData.AmountToGoal();
            
@@ -39,6 +47,7 @@ namespace ExpenseTracker
 
             
         }
+        
 
         private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {

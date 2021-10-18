@@ -61,7 +61,7 @@ namespace ExpenseTracker
             currentUser.Budgets.Add(currentBudget);
 
             UserManager.SaveLoggedInUserData();
-            await Navigation.PushModalAsync(new AddExpensePage());
+            await Navigation.PushModalAsync(new ExpensesPage { BindingContext = new Expenses() });
         }
 
         private async void OnViewExpensesButtonClicked(object sender, EventArgs e)

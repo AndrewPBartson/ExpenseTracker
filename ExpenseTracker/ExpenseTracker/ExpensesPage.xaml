@@ -24,22 +24,19 @@
         </Grid>
         <ListView x:Name="ExpensesListView"
                    Margin="20"
+                   IsPullToRefreshEnabled="True"
                    ItemSelected="ExpensesListView_ItemSelected">
             <ListView.ItemTemplate >
-
-               
-             <DataTemplate x:DataType="Model:Expenses">
+                <DataTemplate x:DataType="Model:Expenses">
                    
                     <TextCell Text ="{Binding Description}" Detail="{Binding ExpenseAmount}" 
-                              TextColor="Black" DetailColor="DarkBlue"
-                               >
+                              TextColor="Black" DetailColor="DarkBlue" >
                         
                     </TextCell>
                 </DataTemplate>
 
             </ListView.ItemTemplate>
-            
-            
+                
         </ListView>
         <Grid>
             <Grid.RowDefinitions >
