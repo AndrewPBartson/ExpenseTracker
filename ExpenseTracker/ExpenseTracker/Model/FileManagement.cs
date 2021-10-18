@@ -24,7 +24,7 @@ namespace ExpenseTracker.Model
             //User CurrentListdata = JsonSerializer.Deserialize<User>(FileManager.ReadFileData(UserManager.GetLoggedInUser().UserName));
             Budgets = CurrentListdata.Budgets;
           
-            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month == Costants.CurretMonth.Month);
+            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month == Costants.CurretMonth.Month && n.BudgetDate.Year == Costants.CurretMonth.Year);
             if (Budget != null)
             {
                 CurrentMonthExpense = Budget.ListOfExpenses;
@@ -61,7 +61,7 @@ namespace ExpenseTracker.Model
             //Budgets = CurrentListdata.Budgets;
 
             Budgets = CurrentListdata.Budgets;
-            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate == Costants.CurretMonth);
+            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month == Costants.CurretMonth.Month && n.BudgetDate.Year == Costants.CurretMonth.Year);
 
             if (Budget != null)
             {
