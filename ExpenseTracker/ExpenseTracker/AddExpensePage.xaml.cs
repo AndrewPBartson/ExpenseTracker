@@ -62,10 +62,14 @@ namespace ExpenseTracker
             await Navigation.PopModalAsync();
         }
 
-        private void OnDeleteButtonClicked(object sender, EventArgs e)
+        private async void OnDeleteButtonClicked(object sender, EventArgs e)
         {
             var expense = (Expenses)BindingContext;
             deleteExpense(expense.ExpenseDate, expense.ExpenseId);
+
+            var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
+            FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
+            await Navigation.PopModalAsync();
         }
 
         private async void OnCancelButtonClicked(object sender, EventArgs e)
@@ -123,16 +127,14 @@ namespace ExpenseTracker
             budget.AddExpense(newExpense);
         }
 
-        public async void deleteExpense(DateTime budgetDate, int expId)
+        public void deleteExpense(DateTime budgetDate, int expId)
         {
             foreach (Budget budget in currentUser.Budgets)
             {
                 if (budget.BudgetDate.Month == budgetDate.Month)
                 {
                     budget.ListOfExpenses.RemoveAll(x => x.ExpenseId == expId);
-                    var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
-                    FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
-                    await Navigation.PopModalAsync();
+                    break;
                 }
             }
         }
