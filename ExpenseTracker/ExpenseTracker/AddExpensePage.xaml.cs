@@ -38,29 +38,32 @@ namespace ExpenseTracker
             }
         }
 
-        private void OnAddButtonClicked(object sender, EventArgs e)
+        private async void OnAddButtonClicked(object sender, EventArgs e)
         {
             validateNewExpenseData();
             Budget matchingBudget = Budget.getMatchingBudget(date, currentUser);
             AddExpenseInBudget(matchingBudget);
-            SaveDataToFile(currentUser);
+            UserManager.SaveLoggedInUserData();
+            await Navigation.PopModalAsync();
         }
 
-        private void OnUpdateButtonClicked(object sender, EventArgs e)
+        private async void OnUpdateButtonClicked(object sender, EventArgs e)
         {
             var expense = (Expenses)BindingContext;
             validateNewExpenseData();
             Budget matchingBudget = Budget.getMatchingBudget(date, currentUser);
             AddExpenseInBudget(matchingBudget);
             deleteExpense(expense.ExpenseDate, expense.ExpenseId);
-            SaveDataToFile(currentUser);
+            UserManager.SaveLoggedInUserData();
+            await Navigation.PopModalAsync();
         }
 
-        private void OnDeleteButtonClicked(object sender, EventArgs e)
+        private async void OnDeleteButtonClicked(object sender, EventArgs e)
         {
             var expense = (Expenses)BindingContext;
             deleteExpense(expense.ExpenseDate, expense.ExpenseId);
-            SaveDataToFile(currentUser);
+            UserManager.SaveLoggedInUserData();
+            await Navigation.PopModalAsync();
         }
 
         private async void OnCancelButtonClicked(object sender, EventArgs e)
@@ -105,13 +108,6 @@ namespace ExpenseTracker
                     break;
                 }
             }
-        }
-
-        private async void SaveDataToFile(User currentUser)
-        {
-            var updatedExpenseJsonString = JsonSerializer.Serialize(currentUser);
-            FileManager.SaveDataToFile(currentUser.UserName, updatedExpenseJsonString);
-            await Navigation.PopModalAsync();
         }
 
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
