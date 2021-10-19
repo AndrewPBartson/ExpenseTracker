@@ -92,6 +92,32 @@ namespace ExpenseTracker.Model
             return null;
         }
 
+
+        public static Budget getMatchingBudget(DateTime date, User currentUser)
+        {
+            bool isBudgetAvailable = false;
+            Budget targetBudget = new Budget();
+
+            foreach (Budget budget in currentUser.Budgets)
+            {
+                if (budget.BudgetDate.Month == date.Month)
+                {
+                    isBudgetAvailable = true;
+                    targetBudget = budget;
+                    break;
+                }
+            }
+
+            if (isBudgetAvailable == false)
+            {
+                targetBudget.BudgetGoalAmount = 0;
+                targetBudget.BudgetDate = date;
+                currentUser.Budgets.Add(targetBudget);
+            }
+
+            return targetBudget;
+        }
+
         public int getNextId(List<Expenses> expenses)
         {
             int nextId;
