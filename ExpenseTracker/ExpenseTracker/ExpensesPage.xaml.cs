@@ -22,12 +22,13 @@ namespace ExpenseTracker
         {
 
 
-            ExpensesListView.ItemsSource = null ;
+            Setting_SortPickerdata();
+
 
             List<Expenses> ExpenseList = new List<Expenses>();
             FileManagement CurrentData = new FileManagement();
-                        
-           
+
+
             
             ExpenseList = CurrentData.ExpenseList_CurrentMonth();
             
@@ -39,9 +40,10 @@ namespace ExpenseTracker
            
             AmountLabel.Text = " Summery " + Convert.ToString(CurrentMonthCost);
             RemainedLable.Text = "Your Remained Amount   " + Convert.ToString(AmonthTOGoal);
-
-
             
+
+
+
         }
         
 
@@ -72,6 +74,37 @@ namespace ExpenseTracker
             {
                 BindingContext = (Expenses)e.SelectedItem
             });
+        }
+
+        private void Setting_SortPickerdata()
+        {
+            SortingPicker.ItemsSource= null;
+            SortingPicker.Items.Add("Expense Date");
+            SortingPicker.Items.Add("Price");
+        }
+
+        private void SortingSelectedItem_Click(object sender, EventArgs e)
+        {
+            List<Expenses> ExpenseList = new List<Expenses>();
+            List<Expenses> SortExpenseList = new List<Expenses>();
+            FileManagement CurrentData = new FileManagement();
+    
+
+            ExpenseList = CurrentData.ExpenseList_CurrentMonth();
+            if (SortingPicker.SelectedIndex == 0)
+            {
+
+
+                SortExpenseList=ExpenseList.OrderBy(n => n.ExpenseDate).ToList();
+                ExpensesListView.ItemsSource = null;
+                ExpensesListView.ItemsSource = SortExpenseList;
+            }
+            else
+            {
+                SortExpenseList = ExpenseList.OrderBy(n => n.ExpenseAmount).ToList();
+                ExpensesListView.ItemsSource = null;
+                ExpensesListView.ItemsSource = SortExpenseList;
+            }
         }
     }
 }

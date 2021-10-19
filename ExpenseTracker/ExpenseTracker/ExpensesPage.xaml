@@ -19,8 +19,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             
-        <Button Text="Add" Clicked="AddNewExpenses_Click" Grid.Column="0" Grid.Row="0"/>
-            <Button Text="Budget Summary" Clicked="ShowMonthlyBudgetSummary_Click" Grid.Column="1" Grid.Row="0"/>
+            <Button Text="Add" Clicked="AddNewExpenses_Click" Grid.Column="0" Grid.Row="0" />
+            <Button Text="Budget Summary" Clicked="ShowMonthlyBudgetSummary_Click" Grid.Column="1" Grid.Row="0" />
+            <Label Text="Sort" Grid.Row="1" Grid.Column="0" ></Label>
+            <Picker x:Name="SortingPicker"  SelectedIndexChanged="SortingSelectedItem_Click" Grid.Row="1" Grid.Column="1" FontSize="Small" HeightRequest="100"/>
         </Grid>
         <ListView x:Name="ExpensesListView"
                    Margin="20"
@@ -29,10 +31,24 @@
             <ListView.ItemTemplate >
                 <DataTemplate x:DataType="Model:Expenses">
                    
-                    <TextCell Text ="{Binding Description}" Detail="{Binding ExpenseAmount}" 
+                    <!--<TextCell Text ="{Binding Description}" Detail="{Binding ExpenseAmount}" 
                               TextColor="Black" DetailColor="DarkBlue" >
                         
-                    </TextCell>
+                    </TextCell>-->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label    Text ="{Binding Description}" TextColor="Black" FontSize="Small"  Grid.Column="0"/>
+                        <Label   Text="{Binding ExpenseAmount}" TextColor="DarkBlue" FontSize="Small" Grid.Column="1"    />
+                        <!--<Label   Text="{Binding ExpenseDate}" TextColor="ForestGreen" FontSize="Small" Grid.Column="1"/>-->
+                    </Grid>
+                    
                 </DataTemplate>
 
             </ListView.ItemTemplate>
