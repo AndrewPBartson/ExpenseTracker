@@ -11,22 +11,6 @@ namespace ExpenseTracker.Model
         private DateTime budgetdate;
         private DateTime budgetmonth;
 
-        public Budget()
-        {
-            BudgetGoalAmount = 0;
-            ListOfExpenses = new List<Expenses>();
-            BudgetDate = DateTime.Now;
-            BudgetMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-        }
-
-        public Budget(decimal setBudget)
-        {
-            BudgetGoalAmount = setBudget;
-            ListOfExpenses = new List<Expenses>();
-            BudgetDate = DateTime.Now;
-            BudgetMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-        }
-
         public decimal BudgetGoalAmount
         {
             get { return this.budgetgoalamount; }
@@ -79,6 +63,22 @@ namespace ExpenseTracker.Model
             }
         }
 
+        public Budget()
+        {
+            BudgetGoalAmount = 0;
+            ListOfExpenses = new List<Expenses>();
+            BudgetDate = DateTime.Now;
+            BudgetMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        }
+
+        public Budget(decimal setBudget)
+        {
+            BudgetGoalAmount = setBudget;
+            ListOfExpenses = new List<Expenses>();
+            BudgetDate = DateTime.Now;
+            BudgetMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        }
+
         public List<Expenses> AddExpense(Expenses expense)
         {
             ListOfExpenses.Add(expense);
@@ -86,17 +86,12 @@ namespace ExpenseTracker.Model
             return ListOfExpenses;
         }
 
-        //public List<Expenses> EditExpense(Expenses expense, Expenses newExpense)
-        //{
-        //    expense.Name = expense>text;   
-        //    return null;
-        //}
-
         public List<Expenses> DeleteExpense(Expenses expense)
         {
             ListOfExpenses.Remove(expense);
             return null;
         }
+
         public int getNextId(List<Expenses> expenses)
         {
             int nextId;
