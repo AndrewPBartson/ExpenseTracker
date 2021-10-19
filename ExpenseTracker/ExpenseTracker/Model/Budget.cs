@@ -9,19 +9,22 @@ namespace ExpenseTracker.Model
         private decimal budgetgoalamount;
         private List<Expenses> listofexpenses;
         private DateTime budgetdate;
-        private string budgetmonth;
-        private string budgetyear;
+        private DateTime budgetmonth;
 
         public Budget()
         {
+            BudgetGoalAmount = 0;
             ListOfExpenses = new List<Expenses>();
+            BudgetDate = DateTime.Now;
+            BudgetMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
         }
 
         public Budget(decimal setBudget)
         {
             BudgetGoalAmount = setBudget;
-            BudgetDate = DateTime.Now;
             ListOfExpenses = new List<Expenses>();
+            BudgetDate = DateTime.Now;
+            BudgetMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
         }
 
         public decimal BudgetGoalAmount
@@ -63,7 +66,7 @@ namespace ExpenseTracker.Model
             }
         }
 
-        public string BudgetMonth
+        public DateTime BudgetMonth
         {
             get { return this.budgetmonth; }
             set
@@ -71,18 +74,6 @@ namespace ExpenseTracker.Model
                 if (value != this.budgetmonth)
                 {
                     this.budgetmonth = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-        public string BudgetYear
-        {
-            get { return this.budgetyear; }
-            set
-            {
-                if (value != this.budgetyear)
-                {
-                    this.budgetyear = value;
                     NotifyPropertyChanged();
                 }
             }

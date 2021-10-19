@@ -227,8 +227,6 @@
                            Text="$XXX.00" FontSize="18"
                            Grid.Row="3" Grid.Column="3" />
                 </Grid>
-                <!-- ViewExpenseButton might be unnecessary if conditional 
-                      "Continue" button is implemented -->
                 <Button x:Name="ViewExpensesButton" 
                         Text="View Expenses" Grid.Row="8"
                         Margin="20,10,20,0"

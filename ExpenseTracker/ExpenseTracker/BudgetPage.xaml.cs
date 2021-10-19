@@ -20,27 +20,32 @@ namespace ExpenseTracker
         }
 
         public Budget currentBudget;
+
         User currentUser = UserManager.GetLoggedInUser();
 
-        private string budgetMonth;
-        private string budgetYear;
+        
+
+
+        private DateTime budgetMonth;
+        
 
         protected override void OnAppearing()
         {
             User currentUser = UserManager.GetLoggedInUser();
             if (currentUser.Budgets.Count != 0)     
             {
+                // find index of current budget
+                // load current budget data
+                // allow user to edit BudgetGoalAmount
                 BudgetInput.Text = currentUser.Budgets[0].BudgetGoalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                //BudgetStatusReport.Text = $"You have spent \n$ {BudgetInput.Text} from your monthly goal of \n$ {BudgetInput.Text}";
                 BudgetStatusReport.Text = $"Spent ${BudgetInput.Text} of ${BudgetInput.Text}";
-                //   - Show "Edit" button
-                //   - Show "Continue" button
-                //   - After user clicks "Edit", rename "Continue" to "Save"
+                // allow user to select a different budge to edit (not this month's budget) -
+                // add "Select Budget" button?
             }
-            else // if there is NOT a value for budget
+            else // if user doesn't have any Budget objects
             {
-                //   - Disable "Edit" button
-                //   - Disable "Save" button until user enters some amount
+                currentBudget = new Budget();
+                budgetMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             }
             getSummaryData();
         }
@@ -52,17 +57,12 @@ namespace ExpenseTracker
 
         private async void OnSaveButtonClicked(object sender, EventArgs e)
         {
-            currentBudget = new Budget();
             currentBudget.BudgetGoalAmount = decimal.Parse(BudgetInput.Text);
-            currentBudget.BudgetDate = DateTime.Now;
-            currentBudget.ListOfExpenses = new List<Expenses>();
             currentBudget.BudgetMonth = budgetMonth;
-            currentBudget.BudgetYear = budgetYear;
 
             User currentUser = new User();
             currentUser = UserManager.GetLoggedInUser();
             currentUser.Budgets.Add(currentBudget);
-
             UserManager.SaveLoggedInUserData();
             await Navigation.PushModalAsync(new ExpensesPage());
         }
@@ -79,7 +79,7 @@ namespace ExpenseTracker
 
             if (selectedIndex != -1)
             {
-                budgetMonth = (string)picker.ItemsSource[selectedIndex];
+                budgetMonth = new DateTime(budgetMonth.Year, selectedIndex + 1, 1);
             }
         }
         public void OnYearChosen(object sender, EventArgs e)
@@ -89,8 +89,13 @@ namespace ExpenseTracker
 
             if (selectedIndex != -1)
             {
-                budgetYear = (string)picker.ItemsSource[selectedIndex];
-            }
+                budgetMonth = new DateTime(selectedIndex + 2021, budgetMonth.Month, 1);
+            };
+        }
+
+        public void SelectBudgetForUpdate(object sender, EventArgs e)
+        {
+
         }
 
         public void getSummaryData()
