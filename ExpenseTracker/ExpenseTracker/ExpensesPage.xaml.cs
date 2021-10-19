@@ -23,7 +23,7 @@ namespace ExpenseTracker
 
 
             Setting_SortPickerdata();
-
+            Setting_FilteringPickerData();
 
             List<Expenses> ExpenseList = new List<Expenses>();
             FileManagement CurrentData = new FileManagement();
@@ -38,8 +38,8 @@ namespace ExpenseTracker
             decimal CurrentMonthCost = CurrentData.Calculate_MonthlyCost();
             decimal AmonthTOGoal= CurrentData.AmountToGoal();
            
-            AmountLabel.Text = " Summery " + Convert.ToString(CurrentMonthCost);
-            RemainedLable.Text = "Your Remained Amount   " + Convert.ToString(AmonthTOGoal);
+            AmountLabel.Text = " Summary " + Convert.ToString(CurrentMonthCost);
+            RemainedLable.Text = "Remaining Balance   " + Convert.ToString(AmonthTOGoal);
             
 
 
@@ -78,7 +78,8 @@ namespace ExpenseTracker
 
         private void Setting_SortPickerdata()
         {
-            SortingPicker.ItemsSource= null;
+        
+            SortingPicker.Items.Clear();
             SortingPicker.Items.Add("Expense Date");
             SortingPicker.Items.Add("Price");
         }
@@ -105,6 +106,49 @@ namespace ExpenseTracker
                 ExpensesListView.ItemsSource = null;
                 ExpensesListView.ItemsSource = SortExpenseList;
             }
+        }
+
+        private void Setting_FilteringPickerData()
+        {
+
+            FilteringPicker.Items.Clear();
+
+
+            foreach (string name in Enum.GetNames(typeof(Category)))
+            {
+                FilteringPicker.Items.Add(name);
+            }
+            
+
+           
+        }
+
+
+        private void FilteringPickerSelectedItem_Click(object sender, EventArgs e)
+        {
+            List<Expenses> ExpenseList = new List<Expenses>();
+            List<Expenses> FilteredExpenseList = new List<Expenses>();
+            FileManagement CurrentData = new FileManagement();
+
+            //Category Categoryneme = (Category)e;
+
+            //ExpenseList = CurrentData.ExpenseList_CurrentMonth();
+            
+            //    FilteredExpenseList = ExpenseList.Where(n => n.ExpenseCategory.ToString == ).ToList();
+            //    ExpensesListView.ItemsSource = null;
+            //    ExpensesListView.ItemsSource = FilteredExpenseList;
+            
+            
+        }
+
+        private void OnMonthBrows(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OnYearBrows(object sender, EventArgs e)
+        {
+
         }
     }
 }
