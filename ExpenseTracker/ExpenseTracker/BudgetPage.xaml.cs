@@ -21,19 +21,22 @@ namespace ExpenseTracker
 
         private DateTime budgetDate = DateTime.Now;
         private User currentUser = UserManager.GetLoggedInUser();
+        private Budget currentBudget; 
 
         protected override void OnAppearing()
         {
-            Budget currentBudget = getMatchingBudget(budgetDate);
+            Budget thisBudget = getMatchingBudget(budgetDate);
 
             // populate data into Pickers and BudgetInput
-            BudgetInput.Text = currentBudget.BudgetGoalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture);
-            BudgetStatusReport.Text = $"Spent ${0} of ${currentBudget.BudgetGoalAmount}";
+            BudgetInput.Text = thisBudget.BudgetGoalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            BudgetStatusReport.Text = $"Spent ${0} of ${thisBudget.BudgetGoalAmount}";
 
             int monthId = budgetDate.Month;
             int yearId = budgetDate.Year;
             BudgetMonthPicker.SelectedIndex = monthId - 1;
             BudgetYearPicker.SelectedIndex = yearId - 2021;
+            currentBudget = thisBudget;
+
             getSummaryData();
         }
 
@@ -43,6 +46,7 @@ namespace ExpenseTracker
 
             nextBudget.BudgetGoalAmount = decimal.Parse(BudgetInput.Text);
             nextBudget.BudgetDate = budgetDate;
+            currentBudget = nextBudget;
             UserManager.SaveLoggedInUserData();
             await Navigation.PushModalAsync(new ExpensesPage()); 
         }
@@ -95,6 +99,7 @@ namespace ExpenseTracker
                 targetBudget.BudgetGoalAmount = 0;
                 targetBudget.BudgetDate = date;
                 currentUser.Budgets.Add(targetBudget);
+                budgetDate = targetBudget.BudgetDate;
             }
             return targetBudget;
         }
@@ -111,7 +116,7 @@ namespace ExpenseTracker
             decimal totalGiftExpense = 0;
             
             
-            Budget currentBudget = Budget.getMatchingBudget(budgetDate, currentUser);
+            currentBudget = Budget.getMatchingBudget(budgetDate, currentUser);
                         
             foreach (Expenses expense in currentBudget.ListOfExpenses)
             {
