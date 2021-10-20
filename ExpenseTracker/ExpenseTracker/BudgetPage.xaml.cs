@@ -19,50 +19,32 @@ namespace ExpenseTracker
             InitializeComponent();
         }
 
-        public Budget currentBudget;
-
-        private string budgetMonth;
-        private string budgetYear;
+        private DateTime budgetDate = DateTime.Now;
+        private User currentUser = UserManager.GetLoggedInUser();
 
         protected override void OnAppearing()
         {
-            User currentUser = UserManager.GetLoggedInUser();
-            if (currentUser.Budgets.Count != 0)     
-            {
-                BudgetInput.Text = currentUser.Budgets[0].BudgetGoalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                //BudgetStatusReport.Text = $"You have spent \n$ {BudgetInput.Text} from your monthly goal of \n$ {BudgetInput.Text}";
-                BudgetStatusReport.Text = $"Spent ${BudgetInput.Text} of ${BudgetInput.Text}";
-                //   - Show "Edit" button
-                //   - Show "Continue" button
-                //   - After user clicks "Edit", rename "Continue" to "Save"
-            }
-            else // if there is NOT a value for budget
-            {
-                //   - Disable "Edit" button
-                //   - Disable "Save" button until user enters some amount
-            }
-        }
+            Budget currentBudget = getMatchingBudget(budgetDate);
 
-        private async void OnEditButtonClicked(object sender, EventArgs e) 
-        { 
-            await Navigation.PushModalAsync(new ExpensesPage());
+            // populate data into Pickers and BudgetInput
+            BudgetInput.Text = currentBudget.BudgetGoalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            BudgetStatusReport.Text = $"Spent ${0} of ${currentBudget.BudgetGoalAmount}";
+
+            int monthId = budgetDate.Month;
+            int yearId = budgetDate.Year;
+            BudgetMonthPicker.SelectedIndex = monthId - 1;
+            BudgetYearPicker.SelectedIndex = yearId - 2021;
         }
 
         private async void OnSaveButtonClicked(object sender, EventArgs e)
         {
-            currentBudget = new Budget();
-            currentBudget.BudgetGoalAmount = decimal.Parse(BudgetInput.Text);
-            currentBudget.BudgetDate = DateTime.Now;
-            currentBudget.ListOfExpenses = new List<Expenses>();
-            currentBudget.BudgetMonth = budgetMonth;
-            currentBudget.BudgetYear = budgetYear;
+            Budget nextBudget = getMatchingBudget(budgetDate);
 
-            User currentUser = new User();
-            currentUser = UserManager.GetLoggedInUser();
-            currentUser.Budgets.Add(currentBudget);
+            nextBudget.BudgetGoalAmount = decimal.Parse(BudgetInput.Text);
+            nextBudget.BudgetDate = budgetDate;
 
             UserManager.SaveLoggedInUserData();
-            await Navigation.PushModalAsync(new ExpensesPage());
+            await Navigation.PushModalAsync(new ExpensesPage()); 
         }
 
         private async void OnViewExpensesButtonClicked(object sender, EventArgs e)
@@ -77,7 +59,7 @@ namespace ExpenseTracker
 
             if (selectedIndex != -1)
             {
-                budgetMonth = (string)picker.ItemsSource[selectedIndex];
+                budgetDate = new DateTime(budgetDate.Year, selectedIndex + 1, 1);
             }
         }
         public void OnYearChosen(object sender, EventArgs e)
@@ -87,8 +69,95 @@ namespace ExpenseTracker
 
             if (selectedIndex != -1)
             {
-                budgetYear = (string)picker.ItemsSource[selectedIndex];
+                budgetDate = new DateTime(selectedIndex + 2021, budgetDate.Month, 1);
+            };
+        }
+        private Budget getMatchingBudget(DateTime date)
+        {
+            bool isBudgetAvailable = false;
+            Budget targetBudget = new Budget();
+
+            foreach (Budget budget in currentUser.Budgets)
+            {
+                if (budget.BudgetDate.Month == date.Month)
+                {
+                    isBudgetAvailable = true;
+                    targetBudget = budget;
+                    break;
+                }
             }
+            if (isBudgetAvailable == false)
+            {
+                targetBudget.BudgetGoalAmount = 0;
+                targetBudget.BudgetDate = date;
+                currentUser.Budgets.Add(targetBudget);
+            }
+            return targetBudget;
+        }
+
+        public void getSummaryData()
+        {
+            decimal totalHomeExpense = 0;
+            decimal totalShoppingExpense = 0;
+            decimal totalTravelExpense = 0;
+            decimal totalFoodExpense = 0;
+            decimal totalEntertainmentExpense = 0;
+            decimal totalEducationExpense = 0;
+            decimal totalBillsExpense = 0;
+            decimal totalGiftExpense = 0;
+                            
+            currentBudget = Budget.getMatchingBudget(DateTime.Now, currentUser);
+                        
+            foreach (Expenses expense in currentBudget.ListOfExpenses)
+            {
+                if (expense.ExpenseCategory == Category.Home)
+                {
+                    totalHomeExpense = totalHomeExpense + expense.ExpenseAmount;
+                }
+
+                if (expense.ExpenseCategory == Category.Shopping)
+                {
+                    totalShoppingExpense = totalShoppingExpense + expense.ExpenseAmount;
+                }
+                
+                if (expense.ExpenseCategory == Category.Travel)
+                {
+                    totalTravelExpense = totalTravelExpense + expense.ExpenseAmount;
+                }
+                
+                if (expense.ExpenseCategory == Category.Food)
+                {
+                    totalFoodExpense = totalFoodExpense + expense.ExpenseAmount;
+                }
+                
+                if (expense.ExpenseCategory == Category.Entertainment)
+                {
+                    totalEntertainmentExpense = totalEntertainmentExpense + expense.ExpenseAmount;
+                }
+                
+                if (expense.ExpenseCategory == Category.Education)
+                {
+                    totalEducationExpense = totalEducationExpense + expense.ExpenseAmount;
+                }
+                
+                if (expense.ExpenseCategory == Category.Bills)
+                {
+                    totalBillsExpense = totalBillsExpense + expense.ExpenseAmount;
+                }
+                
+                if (expense.ExpenseCategory == Category.Gift)
+                {
+                    totalGiftExpense = totalGiftExpense + expense.ExpenseAmount;
+                }
+            }
+            HomeTotal.Text = "$"+ totalHomeExpense.ToString();
+            ShoppingTotal.Text = "$"+ totalShoppingExpense.ToString();
+            TravelTotal.Text = "$"+ totalTravelExpense.ToString();
+            FoodTotal.Text = "$"+ totalFoodExpense.ToString();
+            EntertainmentTotal.Text = "$"+ totalEntertainmentExpense.ToString();
+            EducationTotal.Text = "$"+ totalEducationExpense.ToString();
+            BillsTotal.Text = "$"+ totalBillsExpense.ToString();
+            GiftTotal.Text = "$"+ totalGiftExpense.ToString();
         }
     }
 }

@@ -9,20 +9,6 @@ namespace ExpenseTracker.Model
         private decimal budgetgoalamount;
         private List<Expenses> listofexpenses;
         private DateTime budgetdate;
-        private string budgetmonth;
-        private string budgetyear;
-
-        public Budget()
-        {
-            ListOfExpenses = new List<Expenses>();
-        }
-
-        public Budget(decimal setBudget)
-        {
-            BudgetGoalAmount = setBudget;
-            BudgetDate = DateTime.Now;
-            ListOfExpenses = new List<Expenses>();
-        }
 
         public decimal BudgetGoalAmount
         {
@@ -63,29 +49,18 @@ namespace ExpenseTracker.Model
             }
         }
 
-        public string BudgetMonth
+        public Budget()
         {
-            get { return this.budgetmonth; }
-            set
-            {
-                if (value != this.budgetmonth)
-                {
-                    this.budgetmonth = value;
-                    NotifyPropertyChanged();
-                }
-            }
+            BudgetGoalAmount = 0;
+            ListOfExpenses = new List<Expenses>();
+            BudgetDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
         }
-        public string BudgetYear
+
+        public Budget(decimal setBudget)
         {
-            get { return this.budgetyear; }
-            set
-            {
-                if (value != this.budgetyear)
-                {
-                    this.budgetyear = value;
-                    NotifyPropertyChanged();
-                }
-            }
+            BudgetGoalAmount = setBudget;
+            ListOfExpenses = new List<Expenses>();
+            BudgetDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
         }
 
         public List<Expenses> AddExpense(Expenses expense)
@@ -95,17 +70,38 @@ namespace ExpenseTracker.Model
             return ListOfExpenses;
         }
 
-        //public List<Expenses> EditExpense(Expenses expense, Expenses newExpense)
-        //{
-        //    expense.Name = expense>text;   
-        //    return null;
-        //}
-
         public List<Expenses> DeleteExpense(Expenses expense)
         {
             ListOfExpenses.Remove(expense);
             return null;
         }
+
+
+        public static Budget getMatchingBudget(DateTime date, User currentUser)
+        {
+            bool isBudgetAvailable = false;
+            Budget targetBudget = new Budget();
+
+            foreach (Budget budget in currentUser.Budgets)
+            {
+                if (budget.BudgetDate.Month == date.Month)
+                {
+                    isBudgetAvailable = true;
+                    targetBudget = budget;
+                    break;
+                }
+            }
+
+            if (isBudgetAvailable == false)
+            {
+                targetBudget.BudgetGoalAmount = 0;
+                targetBudget.BudgetDate = date;
+                currentUser.Budgets.Add(targetBudget);
+            }
+
+            return targetBudget;
+        }
+
         public int getNextId(List<Expenses> expenses)
         {
             int nextId;

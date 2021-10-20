@@ -76,8 +76,9 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="EditButton" Text="Edit"
-                        Clicked="OnEditButtonClicked" />
+                    <Button x:Name="ViewExpensesButton" 
+                        Text="View Expenses"
+                        Clicked="OnViewExpensesButtonClicked" />
 
                     <Button x:Name="SaveButton" Text="Save"
                         Clicked="OnSaveButtonClicked"
@@ -98,7 +99,7 @@
                 </Grid>
 
                 <Label Margin="25,5,10,0"
-                       Text="Monthly Subtotals by Category:" FontSize="20"
+                       Text="This Month's Expense by Category:" FontSize="20"
                        Grid.Row="6"/>
                 <Grid Margin="20,10,10,0"
                       Grid.Row="7">
@@ -227,12 +228,6 @@
                            Text="$XXX.00" FontSize="18"
                            Grid.Row="3" Grid.Column="3" />
                 </Grid>
-                <!-- ViewExpenseButton might be unnecessary if conditional 
-                      "Continue" button is implemented -->
-                <Button x:Name="ViewExpensesButton" 
-                        Text="View Expenses" Grid.Row="8"
-                        Margin="20,10,20,0"
-                        Clicked="OnViewExpensesButtonClicked" />
             </Grid>
         </StackLayout>
     </ContentPage.Content>
