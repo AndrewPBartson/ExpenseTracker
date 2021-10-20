@@ -7,13 +7,26 @@ using System.Text.Json;
 namespace ExpenseTracker.Model
 {
     class FileManagement
-    {   
-        
-             
+    {
 
-        public List<Expenses> ExpenseList_CurrentMonth()
+
+        public Budget CurrentMonthBudget()
         {
-            Costants.CurretMonth = DateTime.Today;
+            List<Expenses> CurrentMonthExpense = new List<Expenses>();
+            List<Budget> Budgets = new List<Budget>();
+
+            User CurrentListdata = UserManager.GetLoggedInUser();
+            //User CurrentListdata = JsonSerializer.Deserialize<User>(FileManager.ReadFileData(UserManager.GetLoggedInUser().UserName));
+            Budgets = CurrentListdata.Budgets;
+
+            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month == Constants.CurretMonth.Month && n.BudgetDate.Year == Constants.CurretMonth.Year);
+            return Budget;
+        }
+
+
+        public List<Expenses> ExpenseList_Bydate(string Month ,string Year)
+        {
+            Constants.CurretMonth = DateTime.Today;
 
 
 
@@ -24,7 +37,7 @@ namespace ExpenseTracker.Model
             //User CurrentListdata = JsonSerializer.Deserialize<User>(FileManager.ReadFileData(UserManager.GetLoggedInUser().UserName));
             Budgets = CurrentListdata.Budgets;
           
-            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month == Costants.CurretMonth.Month && n.BudgetDate.Year == Costants.CurretMonth.Year);
+            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month.ToString() == Month && n.BudgetDate.Year.ToString() == Year);
             if (Budget != null)
             {
                 CurrentMonthExpense = Budget.ListOfExpenses;
@@ -34,10 +47,10 @@ namespace ExpenseTracker.Model
             
         }
 
-        public decimal Calculate_MonthlyCost()
+        public decimal Calculate_MonthlyCost(string Month, string Year)
         {
             List<Expenses> CurrentMonthExpense = new List<Expenses>();
-            CurrentMonthExpense = ExpenseList_CurrentMonth();
+            CurrentMonthExpense = ExpenseList_Bydate(Month,Year);
 
             decimal  monthlyCost= 0.0m;
 
@@ -52,7 +65,7 @@ namespace ExpenseTracker.Model
         }
 
 
-        public decimal AmountToGoal()
+        public decimal AmountToGoal(string Month, string Year)
         {
             List<Expenses> CurrentMonthExpense = new List<Expenses>();
             List<Budget> Budgets = new List<Budget>();
@@ -61,11 +74,11 @@ namespace ExpenseTracker.Model
             //Budgets = CurrentListdata.Budgets;
 
             Budgets = CurrentListdata.Budgets;
-            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month == Costants.CurretMonth.Month && n.BudgetDate.Year == Costants.CurretMonth.Year);
+            var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month.ToString() == Month && n.BudgetDate.Year.ToString() == Year);
 
             if (Budget != null)
             {
-                decimal CurrentBudgetExpencess = Calculate_MonthlyCost();
+                decimal CurrentBudgetExpencess = Calculate_MonthlyCost(Month, Year);
 
                 return (Budget.BudgetGoalAmount - CurrentBudgetExpencess);
             }

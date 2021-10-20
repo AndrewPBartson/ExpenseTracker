@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ExpenseTracker.ExpensesPage"
-             xmlns:Model="clr-namespace:ExpenseTracker.Model"          
-             >
+            
+             xmlns:Model="clr-namespace:ExpenseTracker.Model" x:DataType="Model:Month">
     
     <ContentPage.ToolbarItems >
         <ToolbarItem Text="+" Clicked="AddNewExpenses_Click" Priority="0" Order="Primary"  ></ToolbarItem>
@@ -33,20 +33,22 @@
                    HorizontalOptions ="Center" VerticalOptions="Center"  />
 
 
-            <ImageButton    Grid.Row="0" Grid.Column="3" Clicked="AddNewExpenses_Click"  WidthRequest="50"  HeightRequest="100" HorizontalOptions ="End" VerticalOptions="Center"  >
+            <ImageButton   x:Name="ADDExpenseButton" Grid.Row="0" Grid.Column="3" Clicked="AddNewExpenses_Click"  WidthRequest="50"  HeightRequest="100" HorizontalOptions ="End" VerticalOptions="Center"  >
                 <ImageButton.Source >
                     <FontImageSource Glyph="&#x2B;"
                          FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
                          Size="10"     />
-                </ImageButton.Source>
+                </ImageButton.Source>    
             </ImageButton>
         
 
         <Picker x:Name="ExpenseMonthPicker"
                         Margin="20,0,0,0"
                         Title="Month"
-                        SelectedIndexChanged="OnMonthBrows" Grid.Row="1" Grid.Column="1" FontSize="Small" >
-            <Picker.ItemsSource>
+                        SelectedIndexChanged="OnMonthBrows" Grid.Row="1" Grid.Column="1" FontSize="Small"   >
+              
+                <Picker.ItemsSource>
+                
                 <x:Array Type="{x:Type x:String}">
                     <x:String>January</x:String>
                     <x:String>February</x:String>
@@ -61,8 +63,11 @@
                     <x:String>November</x:String>
                     <x:String>December</x:String>
                 </x:Array>
+                
             </Picker.ItemsSource>
-        </Picker>
+
+
+            </Picker>
         <Picker x:Name="ExpenseYearPicker"
                             Margin="10,0,20,0"
                             Title="Year"
@@ -127,8 +132,8 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label    Text ="{Binding Description}" TextColor="Black" FontSize="Small"  Grid.Column="0"/>
-                        <Label   Text="{Binding ExpenseAmount}" TextColor="DarkBlue" FontSize="Small" Grid.Column="1"    />
-                        <Label   Text="{Binding ExpenseDate}" TextColor="ForestGreen" FontSize="Small" Grid.Column="2"/>
+                            <Label   Text="{Binding ExpenseAmount ,StringFormat= '{0:C}'}" TextColor="DarkBlue" FontSize="Small" Grid.Column="1"    />
+                            <Label   Text="{Binding ExpenseDate ,StringFormat='{}{0:dd/MM/yyyy}'}" TextColor="ForestGreen" FontSize="Small" Grid.Column="2"/>
                     </Grid>
                     </ViewCell>
                 </DataTemplate>
