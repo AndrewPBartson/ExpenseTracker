@@ -36,7 +36,8 @@ namespace ExpenseTracker
             BudgetMonthPicker.SelectedIndex = monthId - 1;
             BudgetYearPicker.SelectedIndex = yearId - 2021;
             currentBudget = thisBudget;
-            
+
+            getSummaryData();
         }
 
         private async void OnSaveButtonClicked(object sender, EventArgs e)
@@ -46,7 +47,6 @@ namespace ExpenseTracker
             nextBudget.BudgetGoalAmount = decimal.Parse(BudgetInput.Text);
             nextBudget.BudgetDate = budgetDate;
             currentBudget = nextBudget;
-
             UserManager.SaveLoggedInUserData();
             await Navigation.PushModalAsync(new ExpensesPage()); 
         }
@@ -65,6 +65,8 @@ namespace ExpenseTracker
             {
                 budgetDate = new DateTime(budgetDate.Year, selectedIndex + 1, 1);
             }
+            
+            getSummaryData();
         }
         public void OnYearChosen(object sender, EventArgs e)
         {
@@ -74,7 +76,9 @@ namespace ExpenseTracker
             if (selectedIndex != -1)
             {
                 budgetDate = new DateTime(selectedIndex + 2021, budgetDate.Month, 1);
-            };
+            }
+            
+            getSummaryData();
         }
         private Budget getMatchingBudget(DateTime date)
         {
@@ -110,8 +114,9 @@ namespace ExpenseTracker
             decimal totalEducationExpense = 0;
             decimal totalBillsExpense = 0;
             decimal totalGiftExpense = 0;
-                            
-            currentBudget = Budget.getMatchingBudget(DateTime.Now, currentUser);
+            
+            
+            currentBudget = Budget.getMatchingBudget(budgetDate, currentUser);
                         
             foreach (Expenses expense in currentBudget.ListOfExpenses)
             {
