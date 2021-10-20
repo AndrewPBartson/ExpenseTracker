@@ -76,8 +76,9 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="EditButton" Text="Edit"
-                        Clicked="OnEditButtonClicked" />
+                    <Button x:Name="ViewExpensesButton" 
+                        Text="View Expenses"
+                        Clicked="OnViewExpensesButtonClicked" />
 
                     <Button x:Name="SaveButton" Text="Save"
                         Clicked="OnSaveButtonClicked"
@@ -227,10 +228,6 @@
                            Text="$XXX.00" FontSize="18"
                            Grid.Row="3" Grid.Column="3" />
                 </Grid>
-                <Button x:Name="ViewExpensesButton" 
-                        Text="View Expenses" Grid.Row="8"
-                        Margin="20,10,20,0"
-                        Clicked="OnViewExpensesButtonClicked" />
             </Grid>
         </StackLayout>
     </ContentPage.Content>
