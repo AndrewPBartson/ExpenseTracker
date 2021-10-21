@@ -76,7 +76,7 @@
                          FontFamily="{OnPlatform iOS=Ionicons, Android=icomoon.ttf#}"
                          Size="44" />
                     </ImageButton.Source>
-                </ImageButton>
+                </ImageButton> 
 
                 <ImageButton x:Name="EntertainmentIcon" BackgroundColor="#D1D1D1" Grid.Row="1" Grid.Column="0" Clicked="EntertainmentIcon_Clicked">
                     <ImageButton.Source>
