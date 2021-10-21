@@ -36,6 +36,10 @@ namespace ExpenseTracker
                 UpdateButton.IsVisible = true;
                 AddSaveButton.IsVisible = false;
             }
+            else
+            {
+                SetCategoryIcon(Category.Home);
+            }
         }
 
         private async void OnAddButtonClicked(object sender, EventArgs e)
