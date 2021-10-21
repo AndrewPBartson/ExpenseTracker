@@ -84,7 +84,7 @@ namespace ExpenseTracker.Model
 
             foreach (Budget budget in currentUser.Budgets)
             {
-                if (budget.BudgetDate.Month == date.Month)
+                if (budget.BudgetDate.Month == date.Month && budget.BudgetDate.Year == date.Year)
                 {
                     isBudgetAvailable = true;
                     targetBudget = budget;
