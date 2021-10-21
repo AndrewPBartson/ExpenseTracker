@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ExpenseTracker.ExpensesPage"
             
-             xmlns:Model="clr-namespace:ExpenseTracker.Model" x:DataType="Model:Month">
+             xmlns:Model="clr-namespace:ExpenseTracker.Model" >
     
     <ContentPage.ToolbarItems >
         <ToolbarItem Text="+" Clicked="AddNewExpenses_Click" Priority="0" Order="Primary"  ></ToolbarItem>
@@ -65,7 +65,7 @@
                 </x:Array>
                 
             </Picker.ItemsSource>
-
+           
 
             </Picker>
         <Picker x:Name="ExpenseYearPicker"
@@ -90,9 +90,8 @@
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="*"  />
+                <RowDefinition Height="*"  />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -101,18 +100,26 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Text="Sort" Grid.Row="0" Grid.Column="0" FontSize="Small" HorizontalOptions="Start" Margin="0,0,0,0" ></Label>
-           
-            <Picker x:Name="SortingPicker"  SelectedIndexChanged="SortingSelectedItem_Click" 
-                    Grid.Row="0" Grid.Column="1" FontSize="Small"     Margin="10,0,0,0" HorizontalOptions="Start" VerticalOptions="Center" HorizontalTextAlignment="Center" />
+            <Label Text="Sort" FontSize="Small" FontAttributes="Bold" HorizontalOptions="Start" WidthRequest="50" Margin="0,20,0,0"
+                   HeightRequest="100" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" HorizontalTextAlignment="Center" />
 
-            <Label Text="Filter By" Grid.Row="0" Grid.Column="2" FontSize="Small" HorizontalOptions="Start" Margin="0,0,0,0" ></Label>
+            <Picker x:Name="SortingPicker"  SelectedIndexChanged="SortingSelectedItem_Click" 
+                     FontSize="Small"      HorizontalOptions="Start" Grid.Row="0"  Grid.Column="1" HeightRequest="100"
+                     VerticalOptions="Center" HorizontalTextAlignment="Center" 
+                    Title="Sort"  WidthRequest="100"   >
+
+            </Picker>
+            <Label Text="Filter By"  FontSize="Small" FontAttributes="Bold"  HorizontalOptions="Start"  WidthRequest="60"  HeightRequest="100" Margin="0,20,0,0"
+                   Grid.Row="0" Grid.Column="2"  VerticalOptions="Center" HorizontalTextAlignment="Center"/>
 
             <Picker x:Name="FilteringPicker"  SelectedIndexChanged="FilteringPickerSelectedItem_Click" 
-                    Grid.Row="0" Grid.Column="3" FontSize="Small"     Margin="10,0,0,0" HorizontalOptions="Start" VerticalOptions="Center" HorizontalTextAlignment="Center" />
-
+                    FontSize="Small"     HorizontalOptions="Start" Grid.Row="0" Grid.Column="3"
+                     Title="Filter by"  VerticalOptions="Center" HorizontalTextAlignment="Center" WidthRequest="100"   HeightRequest="100" />
 
         </Grid>
+
+
+
 
 
         <ListView x:Name="ExpensesListView"
@@ -124,7 +131,7 @@
                     <ViewCell>
                       <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*"   />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -141,13 +148,9 @@
             </ListView.ItemTemplate>
                 
         </ListView>
-        <Grid>
-            <Grid.RowDefinitions >
-                    
-            </Grid.RowDefinitions>
-        </Grid>
-        <Label x:Name="AmountLabel" Text="Summary" FontSize="Medium" TextColor="Red" />
-        <Label x:Name="RemainedLable" Text="Remaining Balance" FontSize="Medium"  TextColor="Green"/>
+        
+        <Label x:Name="AmountLabel" Text="Summary" FontSize="Small" TextColor="Red"  FontAttributes="Bold"/>
+        <Label x:Name="RemainedLable" Text="Remaining Balance" FontSize="Small"  TextColor="Green"  FontAttributes="Bold"/>
 
     </StackLayout>
    

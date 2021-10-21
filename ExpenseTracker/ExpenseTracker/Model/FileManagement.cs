@@ -16,7 +16,6 @@ namespace ExpenseTracker.Model
             List<Budget> Budgets = new List<Budget>();
 
             User CurrentListdata = UserManager.GetLoggedInUser();
-            //User CurrentListdata = JsonSerializer.Deserialize<User>(FileManager.ReadFileData(UserManager.GetLoggedInUser().UserName));
             Budgets = CurrentListdata.Budgets;
 
             var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month == Constants.CurretMonth.Month && n.BudgetDate.Year == Constants.CurretMonth.Year);
@@ -26,15 +25,13 @@ namespace ExpenseTracker.Model
 
         public List<Expenses> ExpenseList_Bydate(string Month ,string Year)
         {
-            Constants.CurretMonth = DateTime.Today;
-
-
+         
 
             List<Expenses> CurrentMonthExpense = new List<Expenses>();
             List<Budget> Budgets = new List<Budget>();
 
             User CurrentListdata = UserManager.GetLoggedInUser();
-            //User CurrentListdata = JsonSerializer.Deserialize<User>(FileManager.ReadFileData(UserManager.GetLoggedInUser().UserName));
+           
             Budgets = CurrentListdata.Budgets;
           
             var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month.ToString() == Month && n.BudgetDate.Year.ToString() == Year);
@@ -71,8 +68,6 @@ namespace ExpenseTracker.Model
             List<Budget> Budgets = new List<Budget>();
 
             User CurrentListdata = UserManager.GetLoggedInUser();
-            //Budgets = CurrentListdata.Budgets;
-
             Budgets = CurrentListdata.Budgets;
             var Budget = CurrentListdata.Budgets.Find(n => n.BudgetDate.Month.ToString() == Month && n.BudgetDate.Year.ToString() == Year);
 

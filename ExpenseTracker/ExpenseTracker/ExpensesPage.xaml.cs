@@ -61,10 +61,14 @@ namespace ExpenseTracker
 
         private void Setting_SortPickerdata( )
         {
-        
-            SortingPicker.Items.Clear();
-            SortingPicker.Items.Add("Expense Date");
-            SortingPicker.Items.Add("Price");
+            List<String> SortingItems = new List<string>() ;
+            SortingPicker.ItemsSource = null;
+            SortingItems.Add("--");
+            SortingItems.Add("Price");
+            SortingItems.Add("Expense Date");
+            SortingPicker.ItemsSource = SortingItems;
+
+            
         }
 
         private void SortingSelectedItem_Click(object sender, EventArgs e)
@@ -72,19 +76,27 @@ namespace ExpenseTracker
             List<Expenses> ExpenseList = new List<Expenses>();
             List<Expenses> SortExpenseList = new List<Expenses>();
             FileManagement CurrentData = new FileManagement();
-    
+
+           
 
             ExpenseList = CurrentData.ExpenseList_Bydate(Constants.CurretMonth.Month.ToString(), Constants.CurretMonth.Year.ToString());
+
             if (SortingPicker.SelectedIndex == 0)
             {
+                ExpensesListView.ItemsSource = null;
+                ExpensesListView.ItemsSource = ExpenseList;
+            }
 
-
-                SortExpenseList=ExpenseList.OrderBy(n => n.ExpenseDate).ToList();
+            else if (SortingPicker.SelectedIndex == 2)
+            {
+                FilteringPicker.SelectedItem = "--";
+                SortExpenseList =ExpenseList.OrderBy(n => n.ExpenseDate).ToList();
                 ExpensesListView.ItemsSource = null;
                 ExpensesListView.ItemsSource = SortExpenseList;
             }
-            else
+            else if (SortingPicker.SelectedIndex == 1)
             {
+                FilteringPicker.SelectedItem = "--";
                 SortExpenseList = ExpenseList.OrderBy(n => n.ExpenseAmount).ToList();
                 ExpensesListView.ItemsSource = null;
                 ExpensesListView.ItemsSource = SortExpenseList;
@@ -127,6 +139,9 @@ namespace ExpenseTracker
 
             ExpenseList = CurrentData.ExpenseList_Bydate(Month, Year);
 
+
+
+            if (SelectedCategory.SelectedItem == null) return; 
             if (SelectedCategory.SelectedItem.ToString() == "--")
             {
                             
@@ -135,7 +150,7 @@ namespace ExpenseTracker
             }
             else
             {
-
+                SortingPicker.SelectedItem = "--";
                 FilteredExpenseList = ExpenseList.Where(n => n.ExpenseCategory.ToString() == SelectedCategory.SelectedItem.ToString()).ToList();
                 ExpensesListView.ItemsSource = null;
                 ExpensesListView.ItemsSource = FilteredExpenseList;
@@ -186,8 +201,8 @@ namespace ExpenseTracker
             decimal CurrentMonthCost = CurrentData.Calculate_MonthlyCost(Month, Year);
             decimal AmonthTOGoal = CurrentData.AmountToGoal(Month, Year);
 
-            AmountLabel.Text = "Expenses Summary $" + Convert.ToString(CurrentMonthCost);
-            RemainedLable.Text = "Remaining Balance  $" + Convert.ToString(AmonthTOGoal);
+            AmountLabel.Text = "Current Month Expenses Summary $ " + Convert.ToString(CurrentMonthCost);
+            RemainedLable.Text = "Current Month Remaining Balance  $ " + Convert.ToString(AmonthTOGoal);
 
 
 
