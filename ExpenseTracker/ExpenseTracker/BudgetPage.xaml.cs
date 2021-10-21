@@ -29,7 +29,7 @@ namespace ExpenseTracker
             budgetDate = thisBudget.BudgetDate;
 
             // populate data into Pickers and BudgetInput
-            BudgetInput.Text = "$" + thisBudget.BudgetGoalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            BudgetInput.Text = $"$ ${thisBudget.BudgetGoalAmount}";
             BudgetStatusReport.Text = $"Spent ${getTotalExpensesForMonth()} of ${thisBudget.BudgetGoalAmount}";
 
             int monthId = budgetDate.Month;
@@ -45,8 +45,8 @@ namespace ExpenseTracker
         {
             Budget nextBudget = Budget.getMatchingBudget(budgetDate, currentUser);
             budgetDate = nextBudget.BudgetDate;
-
             nextBudget.BudgetGoalAmount = decimal.Parse(BudgetInput.Text);
+            BudgetInput.Text = nextBudget.BudgetGoalAmount.ToString();
             nextBudget.BudgetDate = budgetDate;
             currentBudget = nextBudget;
             UserManager.SaveLoggedInUserData();
@@ -94,8 +94,7 @@ namespace ExpenseTracker
             decimal totalBillsExpense = 0;
             decimal totalGiftExpense = 0;
 
-
-            currentBudget = Budget.getMatchingBudget(budgetDate, currentUser);
+            Budget tempCurrentBudget = Budget.getMatchingBudget(budgetDate, currentUser);
 
             foreach (Expenses expense in currentBudget.ListOfExpenses)
             {
