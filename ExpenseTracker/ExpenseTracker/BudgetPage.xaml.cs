@@ -38,7 +38,7 @@ namespace ExpenseTracker
             BudgetYearPicker.SelectedIndex = yearId - 2021;
             currentBudget = thisBudget;
 
-            getSummaryData();
+            getSummaryData(currentBudget);
         }
 
         private async void OnSaveButtonClicked(object sender, EventArgs e)
@@ -50,6 +50,8 @@ namespace ExpenseTracker
             nextBudget.BudgetDate = budgetDate;
             currentBudget = nextBudget;
             Constants.CurretMonth = budgetDate;
+            Console.WriteLine("look at user: ");
+            Console.WriteLine(currentUser);
             UserManager.SaveLoggedInUserData();
             await Navigation.PushModalAsync(new ExpensesPage());
         }
@@ -74,7 +76,7 @@ namespace ExpenseTracker
             this.SetBudgetGoalAmount();
 
 
-            getSummaryData();
+            getSummaryData(currentBudget);
         }
         public void OnYearChosen(object sender, EventArgs e)
         {
@@ -89,7 +91,8 @@ namespace ExpenseTracker
 
             this.SetBudgetGoalAmount();
 
-            getSummaryData();
+
+            getSummaryData(currentBudget);
         }
 
         private void SetBudgetGoalAmount()
@@ -101,7 +104,7 @@ namespace ExpenseTracker
             }
         }
 
-        public void getSummaryData()
+        public void getSummaryData(Budget currentBudget)
         {
             decimal totalHomeExpense = 0;
             decimal totalShoppingExpense = 0;
@@ -112,9 +115,9 @@ namespace ExpenseTracker
             decimal totalBillsExpense = 0;
             decimal totalGiftExpense = 0;
 
-            Budget tempCurrentBudget = Budget.getMatchingBudget(budgetDate, currentUser);
+            Budget tempCurrentBudget = Budget.loadMatchingBudgetData(budgetDate, currentUser);
 
-            foreach (Expenses expense in currentBudget.ListOfExpenses)
+            foreach (Expenses expense in tempCurrentBudget.ListOfExpenses)
             {
                 if (expense.ExpenseCategory == Category.Home)
                 {
@@ -170,7 +173,7 @@ namespace ExpenseTracker
         {
             decimal totalMonthlyExpenses = 0;
 
-            currentBudget = Budget.getMatchingBudget(budgetDate, currentUser);
+            currentBudget = Budget.loadMatchingBudgetData(budgetDate, currentUser);
             foreach (Expenses expense in currentBudget.ListOfExpenses)
             {
                 totalMonthlyExpenses += expense.ExpenseAmount;
