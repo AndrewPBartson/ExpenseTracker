@@ -29,6 +29,7 @@ namespace ExpenseTracker
                 {
                     if (UserManager.IsCurrentMonthBudgetSet())
                     {
+                        Constants.CurretMonth = DateTime.Today;
                         await Navigation.PushModalAsync(new ExpensesPage());
                         return;
                     }

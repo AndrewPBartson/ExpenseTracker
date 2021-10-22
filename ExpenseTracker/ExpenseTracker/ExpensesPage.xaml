@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
            
-            <Button Grid.Row="0"  Grid.Column="0" Font="Segoe MDL2 Assets" 
+            <Button Grid.Row="0"  Grid.Column="0"
                     Text="&#8942;" WidthRequest="50"  HeightRequest="70" 
                     HorizontalOptions="Start" TextColor="White" FontSize="30"
                     Clicked="ShowMonthlyBudgetSummary_Click"/>

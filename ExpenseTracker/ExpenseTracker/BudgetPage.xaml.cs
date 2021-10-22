@@ -49,38 +49,56 @@ namespace ExpenseTracker
             BudgetInput.Text = nextBudget.BudgetGoalAmount.ToString();
             nextBudget.BudgetDate = budgetDate;
             currentBudget = nextBudget;
+            Constants.CurretMonth = budgetDate;
             UserManager.SaveLoggedInUserData();
             await Navigation.PushModalAsync(new ExpensesPage());
         }
 
         private async void OnViewExpensesButtonClicked(object sender, EventArgs e)
         {
+            Constants.CurretMonth = budgetDate;
             await Navigation.PushModalAsync(new ExpensesPage { BindingContext = new Expenses() });
             return;
         }
         public void OnMonthChosen(object sender, EventArgs e)
         {
+            BudgetInput.Text = "0";
             var picker = (Picker)sender;
             int selectedIndex = picker.SelectedIndex;
 
             if (selectedIndex != -1)
             {
-                budgetDate = new DateTime(budgetDate.Year, selectedIndex + 1, 1);
+                budgetDate = new DateTime(BudgetYearPicker.SelectedIndex + 2021, selectedIndex + 1, 1);
             }
+            
+            this.SetBudgetGoalAmount();
+
 
             getSummaryData();
         }
         public void OnYearChosen(object sender, EventArgs e)
         {
+            BudgetInput.Text = "0";
             var picker = (Picker)sender;
             int selectedIndex = picker.SelectedIndex;
 
             if (selectedIndex != -1)
             {
-                budgetDate = new DateTime(selectedIndex + 2021, budgetDate.Month, 1);
+                budgetDate = new DateTime(selectedIndex + 2021, BudgetMonthPicker.SelectedIndex + 1, 1);
             }
 
+            this.SetBudgetGoalAmount();
+
             getSummaryData();
+        }
+
+        private void SetBudgetGoalAmount()
+        {
+            var currentBudget = UserManager.GetBudgetForBudgetDate(budgetDate);
+            if (currentBudget != null)
+            {
+                BudgetInput.Text = currentBudget.BudgetGoalAmount.ToString();
+            }
         }
 
         public void getSummaryData()
