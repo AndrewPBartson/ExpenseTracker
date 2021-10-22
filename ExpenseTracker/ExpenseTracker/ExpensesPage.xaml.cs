@@ -20,8 +20,6 @@ namespace ExpenseTracker
         }
         protected override void OnAppearing()
         {
-            
-           
             ExpensesListView.ItemsSource = null;
             SettingMonth_YearPickerData();
             Setting_SortPickerdata();
