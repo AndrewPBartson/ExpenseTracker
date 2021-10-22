@@ -75,7 +75,6 @@ namespace ExpenseTracker
             
             this.SetBudgetGoalAmount();
 
-
             getSummaryData(currentBudget);
         }
         public void OnYearChosen(object sender, EventArgs e)
@@ -90,7 +89,6 @@ namespace ExpenseTracker
             }
 
             this.SetBudgetGoalAmount();
-
 
             getSummaryData(currentBudget);
         }
@@ -114,6 +112,7 @@ namespace ExpenseTracker
             decimal totalEducationExpense = 0;
             decimal totalBillsExpense = 0;
             decimal totalGiftExpense = 0;
+            decimal totalExpenses = 0;
 
             Budget tempCurrentBudget = Budget.loadMatchingBudgetData(budgetDate, currentUser);
 
@@ -167,6 +166,7 @@ namespace ExpenseTracker
             EducationTotal.Text = "$" + totalEducationExpense.ToString();
             BillsTotal.Text = "$" + totalBillsExpense.ToString();
             GiftTotal.Text = "$" + totalGiftExpense.ToString();
+            BudgetStatusReport.Text = $"Spent ${getTotalExpensesForMonth()} of ${tempCurrentBudget.BudgetGoalAmount}";
         }
 
         public decimal getTotalExpensesForMonth()
