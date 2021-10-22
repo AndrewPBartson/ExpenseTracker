@@ -20,10 +20,7 @@ namespace ExpenseTracker
         }
         protected override void OnAppearing()
         {
-            if(Constants.CurretMonth== DateTime.MinValue)
-            {
-                Constants.CurretMonth = DateTime.Today;
-            }
+            
            
             ExpensesListView.ItemsSource = null;
             SettingMonth_YearPickerData();
