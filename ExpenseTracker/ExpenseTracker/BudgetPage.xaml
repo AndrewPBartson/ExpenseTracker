@@ -23,7 +23,6 @@
                        Grid.Row="1" />
                 <Editor x:Name="BudgetInput" Keyboard="Numeric"
                         Margin="20,0,20,0"
-                        Placeholder="Enter your budget for this month"
                         Grid.Row="2"/>
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>

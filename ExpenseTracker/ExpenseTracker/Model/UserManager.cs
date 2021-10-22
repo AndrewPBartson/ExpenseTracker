@@ -79,5 +79,18 @@ namespace ExpenseTracker.Model
                 FileManager.SaveDataToFile(LoggedInUser.UserName, serializedJsonstring);
             }
         }
+
+        public static Budget GetBudgetForBudgetDate(DateTime budgetDate)
+        {
+            if(LoggedInUser!=null)
+            {
+                var budget = LoggedInUser.Budgets.Where(x=> x.BudgetDate.Month == budgetDate.Month && x.BudgetDate.Year == budgetDate.Year).FirstOrDefault();
+                if(budget!=null )
+                {
+                   return budget;
+                }
+            }
+            return null;
+        }
     }
 }
