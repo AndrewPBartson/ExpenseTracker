@@ -21,7 +21,8 @@ namespace ExpenseTracker
         protected override void OnAppearing()
         {
 
-            Constants.CurretMonth =  DateTime.Today;
+           
+          
             ExpensesListView.ItemsSource = null;
             SettingMonth_YearPickerData();
             Setting_SortPickerdata();
