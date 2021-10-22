@@ -24,9 +24,9 @@
             </Grid.ColumnDefinitions>
            
             <Button Grid.Row="0"  Grid.Column="0"
-                    Text="&#8942;" WidthRequest="50"  HeightRequest="70" 
+                    Text="&#8942;" WidthRequest="50"  HeightRequest="100" 
                     HorizontalOptions="Start" TextColor="White" FontSize="30"
-                    Clicked="ShowMonthlyBudgetSummary_Click"/>
+                    Clicked="ShowMonthlyBudgetSummary_Click" />
 
             <Label Text="Expenses List" FontSize="Large" FontAttributes="Bold"  
                    Grid.Row="0"  Grid.Column="1"  Grid.ColumnSpan="2" 
