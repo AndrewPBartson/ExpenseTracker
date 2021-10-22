@@ -27,8 +27,8 @@
                    HeightRequest="25"/>
             <DatePicker Margin="10,0,10,0"
                         x:Name="ExpenseDate"
-                        MinimumDate="01/01/2020" 
-                        MaximumDate="12/31/2021"
+                        MinimumDate="01/01/2021" 
+                        MaximumDate="12/31/2027"
                         DateSelected="DatePicker_DateSelected"/>
 
             <Label Margin="10,25,10,0"

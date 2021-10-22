@@ -44,22 +44,34 @@ namespace ExpenseTracker
 
         private async void OnAddButtonClicked(object sender, EventArgs e)
         {
-            validateNewExpenseData();
-            Budget matchingBudget = Budget.getMatchingBudget(date, currentUser);
-            AddExpenseInBudget(matchingBudget);
-            UserManager.SaveLoggedInUserData();
-            await Navigation.PopModalAsync();
+            if (validateNewExpenseData())
+            {
+                Budget matchingBudget = Budget.getMatchingBudget(date, currentUser);
+                AddExpenseInBudget(matchingBudget);
+                UserManager.SaveLoggedInUserData();
+                await Navigation.PopModalAsync();
+            }
+            else
+            {
+                await DisplayAlert("Alert", "One or more required fields are empty. Please try again.", "OK");
+            }
         }
 
         private async void OnUpdateButtonClicked(object sender, EventArgs e)
         {
             var expense = (Expenses)BindingContext;
-            validateNewExpenseData();
-            Budget matchingBudget = Budget.getMatchingBudget(date, currentUser);
-            AddExpenseInBudget(matchingBudget);
-            deleteExpense(expense.ExpenseDate, expense.ExpenseId);
-            UserManager.SaveLoggedInUserData();
-            await Navigation.PopModalAsync();
+            if (validateNewExpenseData())
+            {  
+                Budget matchingBudget = Budget.getMatchingBudget(date, currentUser);
+                AddExpenseInBudget(matchingBudget);
+                deleteExpense(expense.ExpenseDate, expense.ExpenseId);
+                UserManager.SaveLoggedInUserData();
+                await Navigation.PopModalAsync();
+            }
+            else
+            {
+                await DisplayAlert("Alert", "One or more required fields are empty. Please try again.", "OK");
+            }
         }
 
         private async void OnDeleteButtonClicked(object sender, EventArgs e)
@@ -75,24 +87,28 @@ namespace ExpenseTracker
             await Navigation.PopModalAsync();
         }
 
-        private void validateNewExpenseData()
+        private bool validateNewExpenseData()
         {
+            bool validateFields = true;
+
             if (string.IsNullOrWhiteSpace(ExpenseName.Text)
                 || string.IsNullOrWhiteSpace(ExpenseAmount.Text)
                 || string.IsNullOrWhiteSpace(category.ToString()))
             {
-                DisplayAlert("Alert", "One or more required fields are empty. Please try again.", "OK");
+                validateFields = false;
             }
             else
             {
                 name = ExpenseName.Text;
                 amount = Convert.ToDecimal(ExpenseAmount.Text);
             }
-
+            
             if (date == DateTime.MinValue)
             {
                 date = DateTime.Now;
             }
+
+            return validateFields;
         }
         
         private void AddExpenseInBudget(Budget budget)
