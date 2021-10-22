@@ -241,7 +241,7 @@
                            FontSize="18"
                            Grid.Row="3" Grid.Column="1" />
 
-                    <ImageButton x:Name="GiftIcon" BackgroundColor="#87CEEB"q
+                    <ImageButton x:Name="GiftIcon" BackgroundColor="#87CEEB"
                                  Grid.Row="3" Grid.Column="2"
                                  Margin="0,5,0,5">
                         <ImageButton.Source>
