@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ExpenseTracker.ExpensesPage"
-            
              xmlns:Model="clr-namespace:ExpenseTracker.Model" >
     
     <ContentPage.ToolbarItems >
@@ -23,7 +22,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
            
-            <Button Grid.Row="0"  Grid.Column="0" Font="Segoe MDL2 Assets" 
+            <Button Grid.Row="0"  Grid.Column="0" 
                     Text="&#8942;" WidthRequest="50"  HeightRequest="70" 
                     HorizontalOptions="Start" TextColor="White" FontSize="30"
                     Clicked="ShowMonthlyBudgetSummary_Click"/>
@@ -138,9 +137,9 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Label    Text ="{Binding Description}" TextColor="Black" FontSize="Small"  Grid.Column="0"/>
-                            <Label   Text="{Binding ExpenseAmount ,StringFormat= '{0:C}'}" TextColor="DarkBlue" FontSize="Small" Grid.Column="1"    />
-                            <Label   Text="{Binding ExpenseDate ,StringFormat='{}{0:dd/MM/yyyy}'}" TextColor="ForestGreen" FontSize="Small" Grid.Column="2"/>
+                        <Label   Text ="{Binding Description}" TextColor="Black" FontSize="Small"  Grid.Column="0"/>
+                        <Label   Text="{Binding ExpenseAmount ,StringFormat= '{0:C}'}" TextColor="DarkBlue" FontSize="Small" Grid.Column="1"    />
+                        <Label   Text="{Binding ExpenseDate ,StringFormat='{}{0:dd/MM/yyyy}'}" TextColor="ForestGreen" FontSize="Small" Grid.Column="2"/>
                     </Grid>
                     </ViewCell>
                 </DataTemplate>
