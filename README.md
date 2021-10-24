@@ -1,6 +1,12 @@
 # ExpenseTracker
 
-For this assignment, implement the following features:
+## Deep Stack - October 2021
+
+[See a demo of this app on YouTube](https://www.youtube.com/watch?v=E2m0IlnAppA)
+
+---
+
+Requirements for this project:
 
 - Upon launching the app, if a budget for the month has not yet been set, it should ask the user to input their monthly goal and save it.
 - Once a budget for the month has been set, the user should be shown a screen that contains a button to add their expenses for the month.
